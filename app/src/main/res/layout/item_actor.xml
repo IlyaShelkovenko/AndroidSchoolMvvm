@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="@dimen/material_margin_normal"
+    android:layout_marginEnd="@dimen/material_margin_normal">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_actor_avatar"
+        android:layout_width="@dimen/actor_photo_size"
+        android:layout_height="@dimen/actor_photo_size"
+        android:src="@drawable/ic_person"
+        android:scaleType="centerCrop"
+        android:background="@color/textColorGrey"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CircleImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_first_name"
+        android:contentDescription="@string/actor_avatar"/>
+
+    <TextView
+        android:id="@+id/tv_first_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textColorGrey"
+        android:textSize="@dimen/content_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/iv_actor_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/iv_actor_avatar"
+        tools:text="Jason" />
+
+    <TextView
+        android:id="@+id/tv_second_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textColorGrey"
+        android:textSize="@dimen/content_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/tv_first_name"
+        app:layout_constraintStart_toStartOf="@+id/tv_first_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_first_name"
+        tools:text="Momoa" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
