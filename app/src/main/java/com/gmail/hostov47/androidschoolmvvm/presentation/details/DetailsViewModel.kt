@@ -4,6 +4,7 @@
 
 package com.gmail.hostov47.androidschoolmvvm.presentation.details
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,7 +33,7 @@ class DetailsViewModel(
     private val schedulers: SchedulersProvider
 ) : BaseViewModel() {
 
-    private val _showLoading = MutableLiveData<Boolean>()
+    private val _showLoading = MutableLiveData<Boolean>(true)
     val showLoading: LiveData<Boolean> = _showLoading
 
     private val _detailsWithCast = MutableLiveData<Result>(Result.Empty)
@@ -52,7 +53,8 @@ class DetailsViewModel(
                 detail.toMovieDetailsWithCast(cast)
             }
         Single.zip(movieDetails, movieCast, zipper)
-            .doOnSubscribe { _showLoading.value = true }
+        //Single.zip(observableOne, observableTwo, zipper1)
+            //.doOnSubscribe { _showLoading.value = true }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .subscribe(

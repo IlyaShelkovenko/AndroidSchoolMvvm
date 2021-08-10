@@ -27,7 +27,7 @@
                 android:id="@+id/iv_movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/image_toolbar_height"
-                android:scaleType="centerCrop" />
+                android:scaleType="center" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -55,12 +55,13 @@
                     app:layout_constraintTop_toTopOf="@+id/tv_movie_title"
                     android:button="@drawable/selector_favorite" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_watch"
                     android:layout_width="@dimen/btn_watch_width"
                     android:layout_height="@dimen/btn_watch_height"
                     android:layout_marginTop="@dimen/material_margin_normal"
                     android:background="@drawable/btn_ripple_background"
+                    android:backgroundTint="@color/purple_200"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_movie_title"
                     android:text="@string/watch_str"

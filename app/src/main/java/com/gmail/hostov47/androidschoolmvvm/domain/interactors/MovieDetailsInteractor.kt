@@ -29,12 +29,13 @@ class MovieDetailsInteractor(private val detailsRepository: DetailsRepository) {
     }
 
     @Throws(IOException::class, IllegalStateException::class)
-    fun getMovieCast(movieId: Int): List<MovieCastDomain> =
-        detailsRepository.getMovieCredits(movieId).map {
+    fun getMovieCast(movieId: Int): List<MovieCastDomain> {
+        return detailsRepository.getMovieCredits(movieId).map {
             MovieCastDomain(
                 it.id,
                 it.name,
                 it.profilePath,
             )
         }
+    }
 }
