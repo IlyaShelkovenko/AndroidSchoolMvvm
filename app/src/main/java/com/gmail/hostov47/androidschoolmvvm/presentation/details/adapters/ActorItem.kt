@@ -5,8 +5,9 @@
 package com.gmail.hostov47.androidschoolmvvm.presentation.details.adapters
 
 import com.gmail.hostov47.androidschoolmvvm.R
-import com.gmail.hostov47.androidschoolmvvm.data.network.responses.Cast
+import com.gmail.hostov47.androidschoolmvvm.models.data.dto.CastResponse
 import com.gmail.hostov47.androidschoolmvvm.extensions.load
+import com.gmail.hostov47.androidschoolmvvm.models.presentation.Cast
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_actor.view.*
@@ -25,8 +26,8 @@ class ActorItem(
 
         viewHolder.containerView.tv_first_name.text = name.first()
         viewHolder.containerView.tv_second_name.text = name.last()
-        if(content.profilePath != null){
-            viewHolder.containerView.iv_actor_avatar.load(content.profilePath!!, R.drawable.ic_person)
+        if(content.profilePoster != null){
+            viewHolder.containerView.iv_actor_avatar.load(content.profilePoster!!, R.drawable.ic_person)
         }
     }
 

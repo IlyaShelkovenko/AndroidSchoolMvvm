@@ -4,76 +4,68 @@
 
 package com.gmail.hostov47.androidschoolmvvm.presentation.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.gmail.hostov47.androidschoolmvvm.R
-import com.gmail.hostov47.androidschoolmvvm.data.network.responses.MoviesResponse
-import com.gmail.hostov47.androidschoolmvvm.domain.repository.DetailsRepository
-import com.gmail.hostov47.androidschoolmvvm.domain.repository.HomeRepository
+import com.gmail.hostov47.androidschoolmvvm.domain.interactors.MoviesInteractor
 import com.gmail.hostov47.androidschoolmvvm.extensions.addTo
+import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
+import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
+import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
 import io.reactivex.Single
-import io.reactivex.SingleObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Function3
-import io.reactivex.schedulers.Schedulers
 
 /**
  * Конструктор ViewModel.
  *
- * @param repository [HomeRepository] репозиторий для получения фильмов разных категорий].
+ * @param interactor [MoviesInteractor] интерактор для получения фильмов.
+ * @param schedulers [SchedulersProvider] провайдер шедулеров
  */
-class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
-    private val disposables = CompositeDisposable()
+class HomeViewModel(
+    private val interactor: MoviesInteractor,
+    private val schedulers: SchedulersProvider
+) : BaseViewModel() {
 
-    private val nowPlayingMovies: Single<MoviesResponse>
-        get() = repository.getNowPlayingMovies()
+    private val _movies = MutableLiveData<List<MoviePreview>>()
+    val movies: LiveData<List<MoviePreview>> = _movies
 
-    private val upcomingMovies: Single<MoviesResponse>
-        get() = repository.getUpcomingMovies()
+    private val _showLoading = MutableLiveData<Boolean>(true)
+    val showLoading: LiveData<Boolean> = _showLoading
 
-    private val popularMovies: Single<MoviesResponse>
-        get() = repository.getPopularMovies()
-
-    private val _moviesMapLive = MutableLiveData<MutableList<Pair<Int, MoviesResponse>>>()
-    val moviesMapLive: LiveData<MutableList<Pair<Int, MoviesResponse>>> = _moviesMapLive
-
-    private val _showLoadingLive = MutableLiveData<Boolean>(true)
-    val showLoadingLive: LiveData<Boolean> = _showLoadingLive
+    private val _errors = MutableLiveData<Throwable>()
+    val errors: LiveData<Throwable> = _errors
 
     init {
-        val zipper =
-            Function3<MoviesResponse, MoviesResponse, MoviesResponse, MutableList<Pair<Int, MoviesResponse>>>
-            { recommended, upcoming, popular ->
-                mutableListOf<Pair<Int, MoviesResponse>>().apply {
-                    add(R.string.recommended to recommended)
-                    add(R.string.upcoming to upcoming)
-                    add(R.string.popular to popular)
+        loadMovies()
+    }
+
+    private fun loadMovies() {
+        Single.fromCallable { interactor.getPopularMovies() }
+            .map {
+                it.map { movie ->
+                    MoviePreview(
+                        movieId = movie.id,
+                        title = movie.title,
+                        poster = movie.fullPosterPath,
+                        rating = movie.rating
+                    )
                 }
             }
-        Single.zip(upcomingMovies, nowPlayingMovies, popularMovies, zipper)
-            .subscribe({ list ->
-                _moviesMapLive.value = list
-                _showLoadingLive.value = false
-            }, { e ->
-                Log.d("HomeViewModel", "${e.message}")
-            }).addTo(disposables)
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .doFinally { _showLoading.value = false }
+            .doOnSubscribe { _showLoading.value = true }
+            .subscribe(_movies::setValue, _errors::setValue)
+            .addTo(compositeDisposable)
     }
-
-    override fun onCleared() {
-        if (disposables != null)
-            disposables.dispose()
-    }
-
 }
 
-class HomeViewModelFactory(private val repository: HomeRepository) :
+class HomeViewModelFactory(
+    private val interactor: MoviesInteractor,
+    private val schedulers: SchedulersProvider
+) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return HomeViewModel(repository) as T
+        return HomeViewModel(interactor, schedulers) as T
     }
 }

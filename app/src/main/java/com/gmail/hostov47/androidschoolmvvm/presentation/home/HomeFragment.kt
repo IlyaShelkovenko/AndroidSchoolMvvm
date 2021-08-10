@@ -4,75 +4,88 @@
 
 package com.gmail.hostov47.androidschoolmvvm.presentation.home
 
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.annotation.StringRes
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewbinding.ViewBinding
 import com.gmail.hostov47.androidschoolmvvm.R
-import com.gmail.hostov47.androidschoolmvvm.data.network.api.OkHttpApi
-import com.gmail.hostov47.androidschoolmvvm.data.network.responses.Movie
-import com.gmail.hostov47.androidschoolmvvm.data.network.responses.MoviesResponse
-import com.gmail.hostov47.androidschoolmvvm.data.repository.HomeRepositoryImpl
+import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApi
+import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApiImpl
+import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStore
+import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStoreImpl
+import com.gmail.hostov47.androidschoolmvvm.data.repository.home.MoviesRepository
+import com.gmail.hostov47.androidschoolmvvm.data.repository.home.MoviesRepositoryImpl
 import com.gmail.hostov47.androidschoolmvvm.databinding.FragmentHomeBinding
+import com.gmail.hostov47.androidschoolmvvm.domain.interactors.MoviesInteractor
+import com.gmail.hostov47.androidschoolmvvm.models.data.dto.Movie
+import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BindingFragment
-import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.CategoriesContainer
-import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.MovieItem
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.MoviesAdapter
+import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.OnMovieItemClick
+import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
+import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProviderImpl
+import kotlinx.serialization.json.Json
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+
 
 class HomeFragment : BindingFragment<FragmentHomeBinding>() {
     override val bindingInflater: (LayoutInflater) -> ViewBinding
         get() = FragmentHomeBinding::inflate
 
     private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory(HomeRepositoryImpl(OkHttpApi()))
-    }
-
-    private val adapter by lazy {
-        GroupAdapter<GroupieViewHolder>()
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
+        val json = Json {
+            ignoreUnknownKeys = true
+        }
+        val movieApi: ImdbApi = ImdbApiImpl(okHttpClient, json)
+        val movieStore: MovieStore = MovieStoreImpl(
+            requireContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE),
+            json
+        )
+        val moviesRepository: MoviesRepository = MoviesRepositoryImpl(movieApi, movieStore)
+        val moviesInteractor = MoviesInteractor(moviesRepository)
+        val schedulersProvider: SchedulersProvider = SchedulersProviderImpl()
+        HomeViewModelFactory(moviesInteractor, schedulersProvider)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val onMovieItemClicked = OnMovieItemClick { movie -> openMovieDetails(movie) }
+        val adapter = MoviesAdapter(onMovieItemClicked)
+        binding.moviesRecyclerView.layoutManager = GridLayoutManager(context, NUMBER_OF_COLUMNS)
+        binding.moviesRecyclerView.adapter = adapter
 
-        binding.moviesRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.moviesRecyclerView.adapter = adapter.apply { update(listOf()) }
 
-        viewModel.showLoadingLive.observe(viewLifecycleOwner, Observer {
+        viewModel.showLoading.observe(viewLifecycleOwner, Observer {
             showLoading(it)
         })
 
-        viewModel.moviesMapLive.observe(viewLifecycleOwner, Observer {
-            for (item in it) {
-                addToGroup(item.first, item.second)
-            }
+        viewModel.movies.observe(viewLifecycleOwner, Observer {
+            adapter.submitItems(it)
+        })
+
+        viewModel.errors.observe(viewLifecycleOwner, Observer {
+            showToast(it.message ?: "Unknown error")
         })
     }
 
-    private fun addToGroup(@StringRes title: Int, response: MoviesResponse) {
-        val moviesList = listOf(
-                CategoriesContainer(
-                        title,
-                        response.results?.map { movieRes ->
-                            MovieItem(movieRes) { movie ->
-                                openMovieDetails(
-                                    movie
-                                )
-                            }
-                        }?.toList() ?: listOf()
-                )
-        )
-        binding.moviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
+    private fun showToast(message: String){
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
-    private fun openMovieDetails(movie: Movie) {
+    private fun openMovieDetails(movie: MoviePreview) {
         val bundle = Bundle()
-        bundle.putInt(MOVIE_ID, movie.id ?: 0)
+        bundle.putInt(MOVIE_ID, movie.movieId ?: 0)
         findNavController().navigate(R.id.detailsFragment, bundle)
     }
 
@@ -88,5 +101,6 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
 
     companion object {
         const val MOVIE_ID = "MOVIE_ID"
+        const val NUMBER_OF_COLUMNS = 2
     }
 }

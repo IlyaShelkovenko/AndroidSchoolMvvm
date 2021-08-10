@@ -8,72 +8,72 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.gmail.hostov47.androidschoolmvvm.data.network.responses.MovieCreditsResponse
-import com.gmail.hostov47.androidschoolmvvm.data.network.responses.MovieDetailResponse
-import com.gmail.hostov47.androidschoolmvvm.domain.models.MovieDetailsWithCast
-import com.gmail.hostov47.androidschoolmvvm.domain.repository.DetailsRepository
+import com.gmail.hostov47.androidschoolmvvm.domain.interactors.MovieDetailsInteractor
+import com.gmail.hostov47.androidschoolmvvm.domain.interactors.MoviesInteractor
 import com.gmail.hostov47.androidschoolmvvm.extensions.addTo
 import com.gmail.hostov47.androidschoolmvvm.extensions.toMovieDetailsWithCast
+import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieCastDomain
+import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDetailsDomain
+import com.gmail.hostov47.androidschoolmvvm.models.presentation.Cast
+import com.gmail.hostov47.androidschoolmvvm.models.presentation.MovieDetailsWithCast
+import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
+import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
 import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 
 /**
  * Конструктор ViewModel.
  *
- * @param repository [DetailsRepository] репозиторий для получения детальных данных о фильме.
+ * @param interactor [MoviesInteractor] интерактор для получения фильмов.
+ * @param schedulers [SchedulersProvider] провайдер шедулеров
  */
-class DetailsViewModel(private val repository: DetailsRepository) : ViewModel() {
-    private val compositeDisposable = CompositeDisposable()
+class DetailsViewModel(
+    private val interactor: MovieDetailsInteractor,
+    private val schedulers: SchedulersProvider
+) : BaseViewModel() {
 
-    private val _showLoadingLive = MutableLiveData<Boolean>()
-    val showLoadingLive: LiveData<Boolean> = _showLoadingLive
+    private val _showLoading = MutableLiveData<Boolean>()
+    val showLoading: LiveData<Boolean> = _showLoading
 
-    private val _detailsWithCastLive = MutableLiveData<Result>(Result.Empty)
-    val detailsWithCastLive: LiveData<Result> = _detailsWithCastLive
-
-    private val movieDetails: (Int) -> Single<MovieDetailResponse> = { movieId ->
-        repository.getMovieDetails(movieId)
-    }
-
-    private val movieCredits: (Int) -> Single<MovieCreditsResponse> = { movieId ->
-        repository.getMovieCredits(movieId)
-    }
+    private val _detailsWithCast = MutableLiveData<Result>(Result.Empty)
+    val detailsWithCast: LiveData<Result> = _detailsWithCast
 
     /**
-     * Метод, получающий детальную информацию о фильме вместе со списком актеров и команды.
-     *
-     * @param movieId идентификатор фильма.
-     */
+    * Метод, получающий детальную информацию о фильме вместе со списком актеров и команды.
+    *
+    * @param movieId идентификатор фильма.
+    */
     fun getMovieDetails(movieId: Int) {
+        val movieDetails = Single.fromCallable { interactor.getMovieDetails(movieId) }
+        val movieCast = Single.fromCallable { interactor.getMovieCast(movieId)
+            .map { Cast(it.id, it.name, it.fullPosterPath) } }
         val zipper =
-            BiFunction<MovieDetailResponse, MovieCreditsResponse, MovieDetailsWithCast> { detailRes, castRes ->
-                detailRes.toMovieDetailsWithCast(castRes.cast)
+            BiFunction<MovieDetailsDomain, List<Cast>, MovieDetailsWithCast> { detail, cast ->
+                detail.toMovieDetailsWithCast(cast)
             }
-        Single.zip(movieDetails(movieId), movieCredits(movieId), zipper)
-            .doOnSubscribe { _showLoadingLive.value = true }
+        Single.zip(movieDetails, movieCast, zipper)
+            .doOnSubscribe { _showLoading.value = true }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
             .subscribe(
                 {
-                    _showLoadingLive.value = false
-                    _detailsWithCastLive.value = Result.Success(it)},
-                {e -> Result.Error(e.message ?: "Unknown error")}
+                    _showLoading.value = false
+                    _detailsWithCast.value = Result.Success(it)
+                },
+                { e -> Result.Error(e.message ?: "Unknown error") }
             ).addTo(compositeDisposable)
-    }
-
-    override fun onCleared() {
-        compositeDisposable.dispose()
     }
 }
 
-class DetailsViewModelFactory(private val repository: DetailsRepository) :
+class DetailsViewModelFactory(private val interactor: MovieDetailsInteractor,private val schedulers: SchedulersProvider) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return DetailsViewModel(repository) as T
+        return DetailsViewModel(interactor, schedulers) as T
     }
 }
 
 sealed class Result {
-    class Success(val data: MovieDetailsWithCast): Result()
-    class Error(val message: String): Result()
-    object Empty: Result()
+    class Success(val data: MovieDetailsWithCast) : Result()
+    class Error(val message: String) : Result()
+    object Empty : Result()
 }

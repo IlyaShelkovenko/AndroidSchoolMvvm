@@ -2,68 +2,68 @@
  * Created by Ilia Shelkovenko on 12.04.2021.
  */
 
-package com.gmail.hostov47.androidschoolmvvm.data.network.responses
+package com.gmail.hostov47.androidschoolmvvm.models.data.dto
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
-class MovieCreditsResponse(
+@Serializable
+data class MovieCreditsResponse(
     val id: Long,
-    val cast: List<Cast>,
+    val cast: List<CastResponse>,
     val crew: List<Crew>
 )
 
-@JsonClass(generateAdapter = true)
-class Cast(
+@Serializable
+class CastResponse(
     val adult: Boolean,
     val gender: Long?,
     val id: Long,
 
-    @Json(name = "known_for_department")
+    @SerialName("known_for_department")
     val knownForDepartment: String,
 
     val name: String,
 
-    @Json(name = "original_name")
+    @SerialName("original_name")
     val originalName: String,
 
     val popularity: Double,
 
-    @Json(name = "cast_id")
+    @SerialName("cast_id")
     val castId: Long,
 
     val character: String,
 
-    @Json(name = "credit_id")
+    @SerialName("credit_id")
     val creditId: String,
 
     val order: Long,
 
-    @Json(name = "profile_path")
+    @SerialName("profile_path")
     val profilePath: String?
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Crew(
     val adult: Boolean,
     val gender: Long?,
     val id: Long,
 
-    @Json(name = "known_for_department")
+    @SerialName("known_for_department")
     val knownForDepartment: String,
 
     val name: String,
 
-    @Json(name = "original_name")
+    @SerialName("original_name")
     val originalName: String,
 
     val popularity: Double,
 
-    @Json(name = "profile_path")
+    @SerialName("profile_path")
     val profilePath: String?,
 
-    @Json(name = "credit_id")
+    @SerialName("credit_id")
     val creditId: String,
 
     val department: String,
