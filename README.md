@@ -7,6 +7,6 @@
 - Groupie для построения сложных списков на базе RecyclerView. [Ссылка](https://github.com/lisawray/groupie)
 - Android Navigation для навигации между экранами. [Подробнее](https://developer.android.com/guide/navigation/navigation-getting-started)
 - RxJava для сетевых запросов и обращений к БД.
-- СУБД Room для кеширования запросов.
+- SharedPreferences для кеширования запросов.
 - Архитектура приложения разработана с использованием архитектурного паттерна Model-View-ViewModel(MVVM)
 
