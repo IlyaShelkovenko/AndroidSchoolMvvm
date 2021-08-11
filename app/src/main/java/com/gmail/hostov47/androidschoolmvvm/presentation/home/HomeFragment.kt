@@ -64,6 +64,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
         val adapter = MoviesAdapter(onMovieItemClicked)
         binding.moviesRecyclerView.layoutManager = GridLayoutManager(context, NUMBER_OF_COLUMNS)
         binding.moviesRecyclerView.adapter = adapter
+        binding.swipeRefresh.setOnRefreshListener { viewModel.onRefreshLayout() }
 
 
         viewModel.showLoading.observe(viewLifecycleOwner, Observer {
@@ -72,6 +73,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
 
         viewModel.movies.observe(viewLifecycleOwner, Observer {
             adapter.submitItems(it)
+            binding.swipeRefresh.isRefreshing = false
         })
 
         viewModel.errors.observe(viewLifecycleOwner, Observer {

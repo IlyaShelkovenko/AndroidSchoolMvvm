@@ -44,19 +44,18 @@ class DetailsViewModel(
     *
     * @param movieId идентификатор фильма.
     */
-    fun getMovieDetails(movieId: Int) {
-        val movieDetails = Single.fromCallable { interactor.getMovieDetails(movieId) }
-        val movieCast = Single.fromCallable { interactor.getMovieCast(movieId)
+    fun getMovieDetails(movieId: Int, forceLoad: Boolean = false) {
+        val movieDetails = Single.fromCallable { interactor.getMovieDetails(movieId, forceLoad) }
+        val movieCast = Single.fromCallable { interactor.getMovieCast(movieId, forceLoad)
             .map { Cast(it.id, it.name, it.fullPosterPath) } }
         val zipper =
             BiFunction<MovieDetailsDomain, List<Cast>, MovieDetailsWithCast> { detail, cast ->
                 detail.toMovieDetailsWithCast(cast)
             }
         Single.zip(movieDetails, movieCast, zipper)
-        //Single.zip(observableOne, observableTwo, zipper1)
-            //.doOnSubscribe { _showLoading.value = true }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
+            .doOnSubscribe { _showLoading.value = true }
             .subscribe(
                 {
                     _showLoading.value = false
@@ -64,6 +63,10 @@ class DetailsViewModel(
                 },
                 { e -> Result.Error(e.message ?: "Unknown error") }
             ).addTo(compositeDisposable)
+    }
+
+    fun onRefreshLayout(movieId: Int) {
+        getMovieDetails(movieId, true)
     }
 }
 

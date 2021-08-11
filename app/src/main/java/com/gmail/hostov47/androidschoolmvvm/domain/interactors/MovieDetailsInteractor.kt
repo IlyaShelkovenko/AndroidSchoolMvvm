@@ -14,8 +14,8 @@ import java.io.IOException
 class MovieDetailsInteractor(private val detailsRepository: DetailsRepository) {
 
     @Throws(IOException::class, IllegalStateException::class)
-    fun getMovieDetails(movieId: Int): MovieDetailsDomain {
-        val localDetails = detailsRepository.getMovieDetails(movieId)
+    fun getMovieDetails(movieId: Int, forceLoad: Boolean): MovieDetailsDomain {
+        val localDetails = detailsRepository.getMovieDetails(movieId, forceLoad)
         return MovieDetailsDomain(
             localDetails.id,
             localDetails.posterPath,
@@ -29,8 +29,8 @@ class MovieDetailsInteractor(private val detailsRepository: DetailsRepository) {
     }
 
     @Throws(IOException::class, IllegalStateException::class)
-    fun getMovieCast(movieId: Int): List<MovieCastDomain> {
-        return detailsRepository.getMovieCredits(movieId).map {
+    fun getMovieCast(movieId: Int, forceLoad: Boolean): List<MovieCastDomain> {
+        return detailsRepository.getMovieCredits(movieId, forceLoad).map {
             MovieCastDomain(
                 it.id,
                 it.name,

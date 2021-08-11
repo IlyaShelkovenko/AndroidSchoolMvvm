@@ -16,8 +16,10 @@ import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieDetailsLocal
 class DetailsRepositoryImpl(private val api: ImdbApi, private val movieStore: MovieStore) :
     DetailsRepository {
 
-    override fun getMovieDetails(movieId: Int): MovieDetailsLocal {
-        var movieDetails = movieStore.getMovieDetails(movieId)
+    override fun getMovieDetails(movieId: Int, forceLoad: Boolean): MovieDetailsLocal {
+        var movieDetails : MovieDetailsLocal? = null
+        if(!forceLoad)
+            movieDetails = movieStore.getMovieDetails(movieId)
         if (movieDetails == null) {
             val response = api.getMovieDetails(movieId)
             val productionCompanies =
@@ -40,13 +42,16 @@ class DetailsRepositoryImpl(private val api: ImdbApi, private val movieStore: Mo
         return movieDetails
     }
 
-    override fun getMovieCredits(movieId: Int): List<MovieCastLocal> {
-        var movieCast = movieStore.getMovieCredits(movieId)
+    override fun getMovieCredits(movieId: Int, forceLoad: Boolean): List<MovieCastLocal> {
+        var movieCast: List<MovieCastLocal>? = null
+        if(!forceLoad)
+            movieCast = movieStore.getMovieCredits(movieId)
         if(movieCast == null){
             val response = api.getMovieCredits(movieId)
             movieCast = response.cast.map {
                 MovieCastLocal(it.id, it.name, it.profilePath)
             }
+            movieStore.saveMovieCredits(movieId, movieCast)
         }
         return movieCast
     }

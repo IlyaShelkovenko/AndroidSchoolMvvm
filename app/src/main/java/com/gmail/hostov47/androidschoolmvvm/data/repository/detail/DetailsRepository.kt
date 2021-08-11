@@ -18,15 +18,17 @@ interface DetailsRepository {
      * Метод, получающий детальную информацию о фильме.
      *
      * @param movieId идентификатор фильма.
+     * @param forceLoad флаг для получения данных с сети.
      * @return ответ с детальной информацией о фильме [MovieDetailResponse]
      */
-    fun getMovieDetails(movieId: Int): MovieDetailsLocal
+    fun getMovieDetails(movieId: Int, forceLoad: Boolean = false): MovieDetailsLocal
 
     /**
      * Метод, получающий информацию о команде фильма.
      *
      * @param movieId идентификатор фильма.
+     * @param forceLoad флаг для получения данных с сети.
      * @return список каста фильма [MovieCastLocal]
      */
-    fun getMovieCredits(movieId: Int): List<MovieCastLocal>
+    fun getMovieCredits(movieId: Int, forceLoad: Boolean = false): List<MovieCastLocal>
 }

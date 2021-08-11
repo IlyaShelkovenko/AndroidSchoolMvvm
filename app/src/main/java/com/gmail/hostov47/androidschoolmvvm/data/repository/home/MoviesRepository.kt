@@ -14,7 +14,9 @@ import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
 interface MoviesRepository {
     /**
      * Метод, получающий список популярных фильмов.
+     *
+     * @param forceLoad флаг для получения данных с сети.
      * @return список популярных фильмов [MovieLocal]
      */
-    fun getPopularMovies(): List<MovieLocal>
+    fun getPopularMovies(forceLoad: Boolean = false): List<MovieLocal>
 }

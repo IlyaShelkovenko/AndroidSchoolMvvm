@@ -13,8 +13,8 @@ import java.io.IOException
 class MoviesInteractor(private val moviesRepository: MoviesRepository) {
 
     @Throws(IOException::class, IllegalStateException::class)
-    fun getPopularMovies(): List<MovieDomain> =
-        moviesRepository.getPopularMovies()
+    fun getPopularMovies(forceLoad: Boolean): List<MovieDomain> =
+        moviesRepository.getPopularMovies(forceLoad)
             .map { MovieDomain(isAdult = it.isAdult,
                 overview = it.overview,
                 releaseDate = it.releaseDate,

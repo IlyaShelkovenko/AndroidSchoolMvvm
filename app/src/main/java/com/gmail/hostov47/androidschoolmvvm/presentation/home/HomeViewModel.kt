@@ -39,8 +39,8 @@ class HomeViewModel(
         loadMovies()
     }
 
-    private fun loadMovies() {
-        Single.fromCallable { interactor.getPopularMovies() }
+    private fun loadMovies(forceLoad: Boolean = false) {
+        Single.fromCallable { interactor.getPopularMovies(forceLoad) }
             .map {
                 it.map { movie ->
                     MoviePreview(
@@ -57,6 +57,10 @@ class HomeViewModel(
             .doOnSubscribe { _showLoading.value = true }
             .subscribe(_movies::setValue, _errors::setValue)
             .addTo(compositeDisposable)
+    }
+
+    fun onRefreshLayout() {
+        loadMovies(true)
     }
 }
 

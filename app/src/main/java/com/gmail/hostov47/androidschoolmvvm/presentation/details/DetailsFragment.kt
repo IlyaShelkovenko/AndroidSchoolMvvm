@@ -70,6 +70,7 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.swipeRefresh.setOnRefreshListener { viewModel.onRefreshLayout(movieId) }
         viewModel.getMovieDetails(movieId)
         viewModel.showLoading.observe(viewLifecycleOwner, Observer {
             showLoading(it)
@@ -79,7 +80,10 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>(){
             when(result) {
                 Result.Empty -> {}
                 is Result.Error -> showToast(result.message)
-                is Result.Success -> bindMovie(result.data)
+                is Result.Success -> {
+                    bindMovie(result.data)
+                    binding.swipeRefresh.isRefreshing = false
+                }
             }
         })
 
