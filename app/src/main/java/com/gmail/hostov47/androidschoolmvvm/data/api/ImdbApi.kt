@@ -9,6 +9,11 @@ import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MovieDetailResponse
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MoviesResponse
 import java.io.IOException
 
+/**
+ * Интерфейс для получения данных из сети
+ *
+ * @author Shelkovenko Ilya
+ */
 interface ImdbApi {
     val API_KEY: String get() = BuildConfig.THE_MOVIE_DATABASE_API
     val BASE_URL: String get() = BuildConfig.BASE_URL

@@ -4,7 +4,6 @@
 
 package com.gmail.hostov47.androidschoolmvvm.presentation.details
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +12,6 @@ import com.gmail.hostov47.androidschoolmvvm.domain.interactors.MovieDetailsInter
 import com.gmail.hostov47.androidschoolmvvm.domain.interactors.MoviesInteractor
 import com.gmail.hostov47.androidschoolmvvm.extensions.addTo
 import com.gmail.hostov47.androidschoolmvvm.extensions.toMovieDetailsWithCast
-import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieCastDomain
 import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDetailsDomain
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.Cast
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MovieDetailsWithCast

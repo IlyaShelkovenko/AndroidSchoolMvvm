@@ -8,7 +8,7 @@ import java.io.IOException
 /**
  * Интерактор для взаимодействия с фильмами
  *
- * @author Шелковенко Илья on 2021-08-04
+ * @author Shelkovenko Ilya on 2021-08-04
  */
 class MoviesInteractor(private val moviesRepository: MoviesRepository) {
 

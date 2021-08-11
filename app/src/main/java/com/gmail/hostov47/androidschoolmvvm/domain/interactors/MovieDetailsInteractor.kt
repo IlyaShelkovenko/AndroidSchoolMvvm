@@ -9,7 +9,7 @@ import java.io.IOException
 /**
  * Интерактор для взаимодействия с детальной информацией о фильме
  *
- * @author Шелковенко Илья on 2021-08-04
+ * @author Shelkovenko Ilya on 2021-08-04
  */
 class MovieDetailsInteractor(private val detailsRepository: DetailsRepository) {
 
