@@ -3,9 +3,10 @@ package com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 
-class SchedulersProviderImpl : SchedulersProvider {
+class SchedulersProviderImpl @Inject constructor() : SchedulersProvider {
     override fun io(): Scheduler {
         return Schedulers.io()
     }

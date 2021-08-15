@@ -7,10 +7,11 @@ import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
 private const val MOVIES_KEY = "MOVIES_KEY"
 
-class MovieStoreImpl(
+class MovieStoreImpl @Inject constructor(
     private val preferences: SharedPreferences,
     private val json: Json
 ) : MovieStore {

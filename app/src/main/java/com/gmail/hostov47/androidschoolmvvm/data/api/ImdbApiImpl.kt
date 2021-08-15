@@ -7,6 +7,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import javax.inject.Inject
 
 
 /**
@@ -15,7 +16,8 @@ import okhttp3.Request
  * @param okHttpClient клиент для работы с сетью
  * @param json сериализатор из Json в модельки
  */
-class ImdbApiImpl(private val okHttpClient: OkHttpClient, private val json: Json) : ImdbApi {
+class ImdbApiImpl @Inject constructor (private val okHttpClient: OkHttpClient, private val json: Json) :
+    ImdbApi {
 
     override fun getPopularMovies(): MoviesResponse {
         val request = createGetRequest("${BASE_URL}movie/popular?api_key=${API_KEY}")

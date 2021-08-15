@@ -4,6 +4,7 @@ import com.gmail.hostov47.androidschoolmvvm.data.repository.detail.DetailsReposi
 import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieCastDomain
 import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDetailsDomain
 import java.io.IOException
+import javax.inject.Inject
 
 
 /**
@@ -11,7 +12,7 @@ import java.io.IOException
  *
  * @author Shelkovenko Ilya on 2021-08-04
  */
-class MovieDetailsInteractor(private val detailsRepository: DetailsRepository) {
+class MovieDetailsInteractor @Inject constructor(private val detailsRepository: DetailsRepository) {
 
     @Throws(IOException::class, IllegalStateException::class)
     fun getMovieDetails(movieId: Int, forceLoad: Boolean): MovieDetailsDomain {

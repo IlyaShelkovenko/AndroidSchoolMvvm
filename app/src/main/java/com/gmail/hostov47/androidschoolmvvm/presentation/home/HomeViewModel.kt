@@ -14,6 +14,7 @@ import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
 import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
 import io.reactivex.Single
+import javax.inject.Inject
 
 /**
  * Конструктор ViewModel.
@@ -64,7 +65,7 @@ class HomeViewModel(
     }
 }
 
-class HomeViewModelFactory(
+class HomeViewModelFactory @Inject constructor(
     private val interactor: MoviesInteractor,
     private val schedulers: SchedulersProvider
 ) :

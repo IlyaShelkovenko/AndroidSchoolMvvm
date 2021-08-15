@@ -7,14 +7,15 @@ package com.gmail.hostov47.androidschoolmvvm.data.repository.home
 import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStore
 import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApi
 import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
+import javax.inject.Inject
 
 
 /**
  * Релазизация [MoviesRepository]
  */
-class MoviesRepositoryImpl(private val moviesApi: ImdbApi, private val movieStore: MovieStore) : MoviesRepository {
+class MoviesRepositoryImpl @Inject constructor(private val moviesApi: ImdbApi, private val movieStore: MovieStore) : MoviesRepository {
 
-    override fun getPopularMovies(forceLoad: Boolean): List<MovieLocal> {
+    override fun getPopularMovies(forceLoad: Boolean):List<MovieLocal>{
         var movies: List<MovieLocal>? = null
         if (!forceLoad)
             movies = movieStore.getMovies()

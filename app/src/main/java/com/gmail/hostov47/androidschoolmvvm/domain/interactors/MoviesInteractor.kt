@@ -2,7 +2,9 @@ package com.gmail.hostov47.androidschoolmvvm.domain.interactors
 
 import com.gmail.hostov47.androidschoolmvvm.data.repository.home.MoviesRepository
 import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDomain
+import io.reactivex.Single
 import java.io.IOException
+import javax.inject.Inject
 
 
 /**
@@ -10,7 +12,7 @@ import java.io.IOException
  *
  * @author Shelkovenko Ilya on 2021-08-04
  */
-class MoviesInteractor(private val moviesRepository: MoviesRepository) {
+class MoviesInteractor @Inject constructor(private val moviesRepository: MoviesRepository) {
 
     @Throws(IOException::class, IllegalStateException::class)
     fun getPopularMovies(forceLoad: Boolean): List<MovieDomain> =

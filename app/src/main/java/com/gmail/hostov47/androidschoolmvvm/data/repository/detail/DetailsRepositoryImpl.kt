@@ -8,12 +8,13 @@ import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStore
 import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApi
 import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieCastLocal
 import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieDetailsLocal
+import javax.inject.Inject
 
 
 /**
  * Релазизация [DetailsRepository]
  */
-class DetailsRepositoryImpl(private val api: ImdbApi, private val movieStore: MovieStore) :
+class DetailsRepositoryImpl @Inject constructor(private val api: ImdbApi, private val movieStore: MovieStore) :
     DetailsRepository {
 
     override fun getMovieDetails(movieId: Int, forceLoad: Boolean): MovieDetailsLocal {

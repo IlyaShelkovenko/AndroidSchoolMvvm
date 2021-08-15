@@ -19,6 +19,7 @@ import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
 import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
+import javax.inject.Inject
 
 /**
  * Конструктор ViewModel.
@@ -68,7 +69,7 @@ class DetailsViewModel(
     }
 }
 
-class DetailsViewModelFactory(private val interactor: MovieDetailsInteractor,private val schedulers: SchedulersProvider) :
+class DetailsViewModelFactory @Inject constructor(private val interactor: MovieDetailsInteractor,private val schedulers: SchedulersProvider) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return DetailsViewModel(interactor, schedulers) as T

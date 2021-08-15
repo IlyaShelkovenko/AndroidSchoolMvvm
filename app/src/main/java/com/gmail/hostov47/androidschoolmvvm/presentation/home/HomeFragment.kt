@@ -4,8 +4,6 @@
 
 package com.gmail.hostov47.androidschoolmvvm.presentation.home
 
-import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,47 +13,30 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewbinding.ViewBinding
+import com.gmail.hostov47.androidschoolmvvm.ImdbApp
 import com.gmail.hostov47.androidschoolmvvm.R
-import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApi
-import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApiImpl
-import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStore
-import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStoreImpl
-import com.gmail.hostov47.androidschoolmvvm.data.repository.home.MoviesRepository
-import com.gmail.hostov47.androidschoolmvvm.data.repository.home.MoviesRepositoryImpl
 import com.gmail.hostov47.androidschoolmvvm.databinding.FragmentHomeBinding
-import com.gmail.hostov47.androidschoolmvvm.domain.interactors.MoviesInteractor
-import com.gmail.hostov47.androidschoolmvvm.models.data.dto.Movie
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BindingFragment
 import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.MoviesAdapter
 import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.OnMovieItemClick
-import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
-import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProviderImpl
-import kotlinx.serialization.json.Json
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import javax.inject.Inject
 
 
 class HomeFragment : BindingFragment<FragmentHomeBinding>() {
     override val bindingInflater: (LayoutInflater) -> ViewBinding
         get() = FragmentHomeBinding::inflate
 
+    @Inject
+    lateinit var viewModelFactory: HomeViewModelFactory
+
     private val viewModel: HomeViewModel by viewModels {
-        val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .build()
-        val json = Json {
-            ignoreUnknownKeys = true
-        }
-        val movieApi: ImdbApi = ImdbApiImpl(okHttpClient, json)
-        val movieStore: MovieStore = MovieStoreImpl(
-            requireContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE),
-            json
-        )
-        val moviesRepository: MoviesRepository = MoviesRepositoryImpl(movieApi, movieStore)
-        val moviesInteractor = MoviesInteractor(moviesRepository)
-        val schedulersProvider: SchedulersProvider = SchedulersProviderImpl()
-        HomeViewModelFactory(moviesInteractor, schedulersProvider)
+       viewModelFactory
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireActivity().application as ImdbApp).appComponent.getHomeComponent().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
