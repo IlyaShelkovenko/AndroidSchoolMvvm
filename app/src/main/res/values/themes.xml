@@ -1,9 +1,9 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Base application theme. -->
     <style name="Theme.AndroidSchoolMvvm" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/blueDark</item>
+        <item name="colorPrimaryVariant">@color/blue_light</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#FCD307</item>
@@ -20,6 +20,26 @@
 
     <style name="ShapeAppearanceOverlay.App.CircleImage" parent="">
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="SettingStyle">
+        <item name="android:textViewStyle">@style/PreferenceStyle</item>
+        <item name="android:textColorSecondary">?attr/colorSecondary</item>
+    </style>
+    <style name="PreferenceStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+
+    </style>
+
+    <style name="Profile"/>
+    <style name="Profile.Header" parent="Profile">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Profile.Header.Nickname" parent="Profile.Header">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/font_large_28</item>
+        <item name="android:layout_marginTop">@dimen/spacing_normal_16</item>
     </style>
 </resources>
 

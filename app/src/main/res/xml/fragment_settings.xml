@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/main_settings"
+        android:key="@string/main_settings_key">
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_key_caching"
+            android:title="@string/caching_data"
+            app:defaultValue="false"
+            />
+
+        <EditTextPreference
+            android:key="@string/pref_key_login"
+            android:title="@string/login"
+            app:defaultValue="John Doe"
+            app:useSimpleSummaryProvider="true"
+            />
+
+        <CheckBoxPreference
+            android:key="@string/pref_key_show_avatar"
+            android:title="@string/show_avatar"
+            app:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

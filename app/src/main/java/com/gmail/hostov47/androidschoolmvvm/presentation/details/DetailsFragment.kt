@@ -74,10 +74,12 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>(){
 
     private fun showLoading(showLoading: Boolean) {
         if (showLoading) {
-            binding.progressBar.visibility = View.VISIBLE
             binding.contentLayout.visibility = View.GONE
+            binding.animationView.visibility = View.VISIBLE
+            binding.animationView.playAnimation()
         } else {
-            binding.progressBar.visibility = View.GONE
+            binding.animationView.cancelAnimation()
+            binding.animationView.visibility = View.GONE
             binding.contentLayout.visibility = View.VISIBLE
         }
     }
@@ -95,4 +97,8 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>(){
         binding.rvCast.adapter = adapter.apply { update(actorsItem) }
     }
 
+    override fun onStop() {
+        super.onStop()
+        binding.animationView.cancelAnimation()
+    }
 }

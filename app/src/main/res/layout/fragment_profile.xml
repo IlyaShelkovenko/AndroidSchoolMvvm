@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:id="@+id/iv_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/blue_light"
+        app:layout_constraintDimensionRatio="16:4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="@dimen/avatar_round_size"
+        android:layout_height="@dimen/avatar_round_size"
+        android:layout_marginStart="@dimen/material_margin_huge"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_background"
+        app:layout_constraintStart_toStartOf="@id/iv_background"
+        app:layout_constraintTop_toTopOf="@id/iv_background"
+        app:srcCompat="@drawable/avatar_default"/>
+
+    <TextView
+        android:id="@+id/tv_login"
+        style="@style/Profile.Header.Nickname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_small"
+        android:layout_marginEnd="@dimen/material_margin_normal"
+        android:text="John Doefdfgdfg"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
+        app:layout_constraintEnd_toStartOf="@+id/iv_settings"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_avatar"
+        android:ellipsize="end"
+        android:lines="1"/>
+
+    <ImageView
+        android:id="@+id/iv_settings"
+        android:layout_width="@dimen/icons_size"
+        android:layout_height="@dimen/icons_size"
+        android:layout_margin="@dimen/material_margin_normal"
+        android:src="@drawable/ic_baseline_settings_24"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_login" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

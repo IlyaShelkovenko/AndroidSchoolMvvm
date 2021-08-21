@@ -2,14 +2,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/blueDark">
+    android:layout_height="match_parent">
 
-    <ProgressBar
+    <!--<ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center" />-->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_rawRes="@raw/cut_video_animation"
+        app:lottie_speed="1.5"
+        android:layout_gravity="center"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
@@ -29,6 +41,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:layout_marginTop="@dimen/material_margin_small"
                     android:id="@+id/iv_movie_poster"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/image_toolbar_height"
@@ -148,7 +161,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_studio_label" />
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/tv_login"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_genre_label"
@@ -193,9 +206,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColorGrey"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_login"
                         app:layout_constraintStart_toStartOf="@id/guideline1"
-                        app:layout_constraintTop_toTopOf="@+id/textView"
+                        app:layout_constraintTop_toTopOf="@+id/tv_login"
                         tools:text="testField" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

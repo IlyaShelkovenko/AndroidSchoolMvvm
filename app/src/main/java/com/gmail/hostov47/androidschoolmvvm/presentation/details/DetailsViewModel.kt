@@ -19,6 +19,7 @@ import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
 import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -52,6 +53,7 @@ class DetailsViewModel(
                 detail.toMovieDetailsWithCast(cast)
             }
         Single.zip(movieDetails, movieCast, zipper)
+            .delay(2, TimeUnit.SECONDS)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .doOnSubscribe { _showLoading.value = true }

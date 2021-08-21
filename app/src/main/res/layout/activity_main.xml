@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.MainActivity"
+    android:background="@color/blueDark">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="40dp"
         android:background="@drawable/toolbar_background"
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -22,7 +23,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:title="" />
+            android:title=""/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -33,9 +34,22 @@
         android:layout_height="0dp"
         app:defaultNavHost="true"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:navGraph="@navigation/navigation_graph" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/my_nav_host_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/blue_light"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@drawable/bottom_icon_selector"
+        app:itemTextColor="@drawable/bottom_icon_selector"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

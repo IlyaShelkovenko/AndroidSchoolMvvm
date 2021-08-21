@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/textColorGrey"
         android:textSize="@dimen/content_text_size"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/iv_actor_avatar"
         app:layout_constraintStart_toStartOf="@+id/iv_actor_avatar"
         app:layout_constraintTop_toBottomOf="@+id/iv_actor_avatar"
         tools:text="Jason" />

@@ -18,5 +18,5 @@ interface MoviesRepository {
      * @param forceLoad флаг для получения данных с сети.
      * @return список популярных фильмов [MovieLocal]
      */
-    fun getPopularMovies(forceLoad: Boolean = false): List<MovieLocal>
+    fun getPopularMovies(forceLoad: Boolean = false, caching: Boolean = true): List<MovieLocal>
 }

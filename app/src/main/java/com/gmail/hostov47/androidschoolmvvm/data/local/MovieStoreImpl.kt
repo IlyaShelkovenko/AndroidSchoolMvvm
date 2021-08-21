@@ -8,10 +8,12 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
+import javax.inject.Named
 
 private const val MOVIES_KEY = "MOVIES_KEY"
 
 class MovieStoreImpl @Inject constructor(
+    @Named("Caching")
     private val preferences: SharedPreferences,
     private val json: Json
 ) : MovieStore {

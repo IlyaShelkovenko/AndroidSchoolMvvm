@@ -1,12 +1,15 @@
 package com.gmail.hostov47.androidschoolmvvm.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import androidx.preference.PreferenceManager
 import com.gmail.hostov47.androidschoolmvvm.R
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -20,6 +23,8 @@ class MainActivity : AppCompatActivity() {
 
         navController = host.navController
         setupActionBar(navController)
+        setUpNavigation()
+        PreferenceManager.setDefaultValues(this, R.xml.fragment_settings, false);
     }
 
     private fun setupActionBar(navController: NavController){
@@ -27,6 +32,15 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         appBar_layout.bringToFront()
         NavigationUI.setupActionBarWithNavController(this, navController)
+    }
+
+    private fun setUpNavigation() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment?
+        NavigationUI.setupWithNavController(
+            bottom_navigation,
+            navHostFragment!!.navController
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {

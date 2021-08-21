@@ -15,8 +15,8 @@ import javax.inject.Inject
 class MoviesInteractor @Inject constructor(private val moviesRepository: MoviesRepository) {
 
     @Throws(IOException::class, IllegalStateException::class)
-    fun getPopularMovies(forceLoad: Boolean): List<MovieDomain> =
-        moviesRepository.getPopularMovies(forceLoad)
+    fun getPopularMovies(forceLoad: Boolean, caching: Boolean): List<MovieDomain> =
+        moviesRepository.getPopularMovies(forceLoad, caching)
             .map { MovieDomain(isAdult = it.isAdult,
                 overview = it.overview,
                 releaseDate = it.releaseDate,

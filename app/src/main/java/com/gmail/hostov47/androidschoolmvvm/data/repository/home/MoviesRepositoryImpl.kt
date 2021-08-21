@@ -15,7 +15,7 @@ import javax.inject.Inject
  */
 class MoviesRepositoryImpl @Inject constructor(private val moviesApi: ImdbApi, private val movieStore: MovieStore) : MoviesRepository {
 
-    override fun getPopularMovies(forceLoad: Boolean):List<MovieLocal>{
+    override fun getPopularMovies(forceLoad: Boolean, caching: Boolean):List<MovieLocal>{
         var movies: List<MovieLocal>? = null
         if (!forceLoad)
             movies = movieStore.getMovies()
@@ -38,7 +38,8 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesApi: ImdbApi, p
                     posterPath = movie.posterPath,
                 )
             }.also {
-                movieStore.saveMovies(it)
+                if(caching)
+                    movieStore.saveMovies(it)
             }
         }
         return movies

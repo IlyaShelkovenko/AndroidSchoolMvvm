@@ -108,4 +108,9 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava:$retofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retofitVersion"
     implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$rxAdapterVersion"
+
+    implementation "androidx.preference:preference-ktx:1.1.1"
+
+    // Lottie animation
+    implementation "com.airbnb.android:lottie:3.4.1"
 }

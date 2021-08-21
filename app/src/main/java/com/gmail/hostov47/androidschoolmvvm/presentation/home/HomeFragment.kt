@@ -31,7 +31,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
     lateinit var viewModelFactory: HomeViewModelFactory
 
     private val viewModel: HomeViewModel by viewModels {
-       viewModelFactory
+        viewModelFactory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +62,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
         })
     }
 
-    private fun showToast(message: String){
+    private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
@@ -73,13 +73,21 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
     }
 
     private fun showLoading(show: Boolean) {
+
         if (show) {
-            binding.progressBar.visibility = View.VISIBLE
             binding.moviesRecyclerView.visibility = View.GONE
-        }else {
-            binding.progressBar.visibility = View.GONE
+            binding.animationView.visibility = View.VISIBLE
+            binding.animationView.playAnimation()
+        } else {
+            binding.animationView.cancelAnimation()
+            binding.animationView.visibility = View.GONE
             binding.moviesRecyclerView.visibility = View.VISIBLE
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.animationView.cancelAnimation()
     }
 
     companion object {
