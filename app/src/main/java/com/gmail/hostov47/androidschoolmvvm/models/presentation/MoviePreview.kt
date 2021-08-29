@@ -8,5 +8,5 @@ data class MoviePreview(
     val movieId: Int,
     val title: String,
     var poster: String,
-    val rating: Float
+    val rating: Float? = null
 )

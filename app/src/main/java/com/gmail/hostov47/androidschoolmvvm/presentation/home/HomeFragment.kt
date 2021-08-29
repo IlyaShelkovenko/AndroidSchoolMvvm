@@ -62,9 +62,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
         })
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-    }
+
 
     private fun openMovieDetails(movie: MoviePreview) {
         val bundle = Bundle()

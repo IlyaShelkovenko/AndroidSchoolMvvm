@@ -4,6 +4,8 @@
 
 package com.gmail.hostov47.androidschoolmvvm.models.presentation
 
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.FavoriteMovie
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.WatchListMovie
 import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieCastDomain
 
 
@@ -18,3 +20,19 @@ class MovieDetailsWithCast(
     val releaseDate: String,
     val cast: List<Cast>
 )
+
+fun MovieDetailsWithCast.toFavoriteMovie() : FavoriteMovie {
+    return FavoriteMovie(
+        movieId = id,
+        title = title,
+        poster = posterPath ?: ""
+    )
+}
+
+fun MovieDetailsWithCast.toWatchListMovie() : WatchListMovie {
+    return WatchListMovie(
+        movieId = id,
+        title = title,
+        poster = posterPath ?: ""
+    )
+}

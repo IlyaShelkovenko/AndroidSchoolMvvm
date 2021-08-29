@@ -26,5 +26,10 @@
     <string name="pref_key_show_avatar">SHOW_AVATAR</string>
     <string name="show_avatar">Показывать аватар</string>
 
+    <string-array name="tab_titles">
+        <item>Понравилось</item>
+        <item>Буду смотреть</item>
+    </string-array>
+
 
 </resources>

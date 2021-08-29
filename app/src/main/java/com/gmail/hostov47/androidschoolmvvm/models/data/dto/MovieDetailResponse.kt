@@ -13,9 +13,6 @@ data class MovieDetailResponse(
     val isAdult: Boolean,
     @SerialName("backdrop_path")
     val backdrop_path: String?,
-    /*@SerialName("belongs_to_collection")
-    val belongsToCollection: Any?,*/
-
     val budget: Long,
     val genres: List<Genre>?,
     val homepage: String?,

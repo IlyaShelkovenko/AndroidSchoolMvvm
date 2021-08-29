@@ -8,11 +8,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import androidx.preference.PreferenceManager
+import androidx.room.Room
 import com.gmail.hostov47.androidschoolmvvm.ImdbApp
 import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApi
 import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApiImpl
 import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStore
 import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStoreImpl
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.MovieDb
 import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
 import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProviderImpl
 import dagger.Binds
@@ -25,7 +27,8 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module(
-    includes = [AppBindModule::class])
+    includes = [AppBindModule::class]
+)
 class AppModule(private val appContext: ImdbApp) {
 
     @Provides
@@ -36,7 +39,9 @@ class AppModule(private val appContext: ImdbApp) {
     @Singleton
     fun provideClient() =
         OkHttpClient().newBuilder()
-            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
             .build()
 
     @Provides
@@ -61,8 +66,28 @@ class AppModule(private val appContext: ImdbApp) {
     @Named("DefaultPrefs")
     @Provides
     @Singleton
-    fun provideDefaultSharedPrefs(appContext: ImdbApp): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
+    fun provideDefaultSharedPrefs(appContext: ImdbApp): SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(appContext)
 
+
+    @Provides
+    @Singleton
+    fun provideDb(appContext: ImdbApp): MovieDb {
+        return Room.databaseBuilder(
+            appContext,
+            MovieDb::class.java,
+            MovieDb.DATABASE_NAME
+        ).fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteDao(db: MovieDb) = db.favoriteMoviesDao()
+
+    @Provides
+    @Singleton
+    fun provideWatchlistDao(db: MovieDb) = db.watchlistDao()
 }
 
 @Module

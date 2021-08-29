@@ -33,6 +33,7 @@
 
     <dimen name="font_large_28">28sp</dimen>
     <dimen name="spacing_normal_16">16dp</dimen>
+    <dimen name="spacing_small_8">8dp</dimen>
     <dimen name="material_margin_huge">56dp</dimen>
 
 

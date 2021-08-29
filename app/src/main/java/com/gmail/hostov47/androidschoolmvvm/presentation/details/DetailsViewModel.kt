@@ -17,6 +17,7 @@ import com.gmail.hostov47.androidschoolmvvm.models.presentation.Cast
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MovieDetailsWithCast
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
 import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import java.util.concurrent.TimeUnit
@@ -38,6 +39,13 @@ class DetailsViewModel(
 
     private val _detailsWithCast = MutableLiveData<Result>(Result.Empty)
     val detailsWithCast: LiveData<Result> = _detailsWithCast
+
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> = _isFavorite
+
+    private val _isInWatchList = MutableLiveData<Boolean>()
+    val isInWatchList: LiveData<Boolean> = _isInWatchList
+
 
     /**
     * Метод, получающий детальную информацию о фильме вместе со списком актеров и команды.
@@ -61,13 +69,57 @@ class DetailsViewModel(
                 {
                     _showLoading.value = false
                     _detailsWithCast.value = Result.Success(it)
+
+                    interactor.isMovieFavorite(it)
+                        .subscribeOn(schedulers.io())
+                        .observeOn(schedulers.ui())
+                        .subscribe(
+                            {isFavorite -> _isFavorite.value = isFavorite},
+                            {e -> Result.Error(e.message ?: "Unknown error")}
+                        ).addTo(compositeDisposable)
+
+                    interactor.isMovieInWatchList(it)
+                        .subscribeOn(schedulers.io())
+                        .observeOn(schedulers.ui())
+                        .subscribe(
+                            {isWatched -> _isInWatchList.value = isWatched},
+                            {e -> Result.Error(e.message ?: "Unknown error")}
+                        ).addTo(compositeDisposable)
                 },
                 { e -> Result.Error(e.message ?: "Unknown error") }
             ).addTo(compositeDisposable)
     }
 
+    fun addToFavorite(movie: MovieDetailsWithCast) {
+        Completable.fromAction { interactor.addToFavorite(movie) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe()
+    }
+
+    fun removeFromFavorite(movie: MovieDetailsWithCast) {
+        Completable.fromAction { interactor.removeFromFavorite(movie) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe()
+    }
+
     fun onRefreshLayout(movieId: Int) {
         getMovieDetails(movieId, true)
+    }
+
+    fun removeFromWatchList(movie: MovieDetailsWithCast) {
+        Completable.fromAction { interactor.removeFromWatchWist(movie) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe()
+    }
+
+    fun addToWatchList(movie: MovieDetailsWithCast) {
+        Completable.fromAction { interactor.addToWatchList(movie) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe()
     }
 }
 

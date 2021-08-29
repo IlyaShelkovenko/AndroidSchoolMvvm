@@ -27,6 +27,8 @@ import javax.inject.Named
  *
  * @param interactor [MoviesInteractor] интерактор для получения фильмов.
  * @param schedulers [SchedulersProvider] провайдер шедулеров
+ * @param prefs [SharedPreferences] преференсы для кеширования
+ * @param resources [Resources] объект для получения ресурсов
  */
 class HomeViewModel(
     private val interactor: MoviesInteractor,

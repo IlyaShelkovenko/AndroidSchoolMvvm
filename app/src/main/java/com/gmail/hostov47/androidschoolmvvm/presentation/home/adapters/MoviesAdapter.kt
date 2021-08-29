@@ -46,7 +46,7 @@ class MoviesAdapter(private val onClickListener: OnMovieItemClick) : RecyclerVie
                 with(moviePreview) {
                     movieTitle.text = title
                     imagePreview.load(poster)
-                    movieRating.rating = rating
+                    movieRating.rating = rating ?: 0f
                 }
             }
         }

@@ -20,21 +20,21 @@ class ImdbApiImpl @Inject constructor (private val okHttpClient: OkHttpClient, p
     ImdbApi {
 
     override fun getPopularMovies(): MoviesResponse {
-        val request = createGetRequest("${BASE_URL}movie/popular?api_key=${API_KEY}")
+        val request = createGetRequest("${BASE_URL}movie/popular?api_key=${API_KEY}&language=ru")
         return okHttpClient.newCall(request).execute().use { response ->
             json.decodeFromString(response.body?.string().orEmpty())
         }
     }
 
     override fun getMovieDetails(movieId: Int): MovieDetailResponse {
-        val request = createGetRequest("${BASE_URL}movie/$movieId?api_key=${API_KEY}")
+        val request = createGetRequest("${BASE_URL}movie/$movieId?api_key=${API_KEY}&language=ru")
         return okHttpClient.newCall(request).execute().use { response ->
             json.decodeFromString(response.body?.string().orEmpty())
         }
     }
 
     override fun getMovieCredits(movieId: Int): MovieCreditsResponse {
-        val request = createGetRequest("${BASE_URL}movie/$movieId/credits?api_key=${API_KEY}")
+        val request = createGetRequest("${BASE_URL}movie/$movieId/credits?api_key=${API_KEY}&language=ru")
         return okHttpClient.newCall(request).execute().use { response ->
             json.decodeFromString(response.body?.string().orEmpty())
         }
