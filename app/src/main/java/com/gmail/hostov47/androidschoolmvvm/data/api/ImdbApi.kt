@@ -20,10 +20,24 @@ interface ImdbApi {
 
     /**
      * Получить популярные фильмы
-     * @return ответ со списком фильмов [MoviesResponse]
+     * @return ответ со списком популярных фильмов [MoviesResponse]
      */
     @Throws(IOException::class, IllegalStateException::class)
     fun getPopularMovies(): MoviesResponse
+
+    /**
+     * Получить новые фильмы
+     * @return ответ со списком новых фильмов [MoviesResponse]
+     */
+    @Throws(IOException::class, IllegalStateException::class)
+    fun getUpcomingMovies(): MoviesResponse
+
+    /**
+     * Получить рекомендуемые фильмы
+     * @return ответ со списком рекомендуемых фильмов [MoviesResponse]
+     */
+    @Throws(IOException::class, IllegalStateException::class)
+    fun getNowPlayingMovies(): MoviesResponse
 
     /**
      * Получить детальную информацию о фильме

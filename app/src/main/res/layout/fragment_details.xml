@@ -4,24 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />-->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="false"
+        android:layout_width="@dimen/progress_animation_size"
+        android:layout_height="@dimen/progress_animation_size"
+        android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="true"
         app:lottie_rawRes="@raw/cut_video_animation"
-        app:lottie_speed="1.5"
-        android:layout_gravity="center"/>
+        app:lottie_speed="1.5" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
@@ -41,10 +36,10 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_marginTop="@dimen/material_margin_small"
                     android:id="@+id/iv_movie_poster"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/image_toolbar_height"
+                    android:layout_marginTop="@dimen/material_margin_small"
                     android:scaleType="center" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,7 +59,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Aquamen"/>
+                        tools:text="Aquamen" />
 
                     <CheckBox
                         android:id="@+id/cb_favorite"
@@ -75,21 +70,22 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_movie_title" />
 
-                    <androidx.appcompat.widget.AppCompatButton
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_watch"
-                        android:layout_width="@dimen/btn_watch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/btn_watch_height"
                         android:layout_marginTop="@dimen/material_margin_normal"
-                        android:background="@drawable/btn_ripple_background"
                         android:backgroundTint="@color/purple_200"
                         android:padding="@dimen/material_margin_small"
                         android:singleLine="true"
                         android:text="@string/watch_str"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
+                        app:cornerRadius="@dimen/btn_corner_radius"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_movie_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_movie_title"
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <RatingBar
                         android:id="@+id/rating_bar"

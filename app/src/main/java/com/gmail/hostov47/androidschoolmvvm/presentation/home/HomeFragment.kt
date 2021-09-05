@@ -7,18 +7,18 @@ package com.gmail.hostov47.androidschoolmvvm.presentation.home
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
 import com.gmail.hostov47.androidschoolmvvm.ImdbApp
 import com.gmail.hostov47.androidschoolmvvm.R
 import com.gmail.hostov47.androidschoolmvvm.databinding.FragmentHomeBinding
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BindingFragment
-import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.MoviesAdapter
+import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.CategoryAdapter
+import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.CategoryItem
 import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.OnMovieItemClick
 import javax.inject.Inject
 
@@ -42,27 +42,42 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val onMovieItemClicked = OnMovieItemClick { movie -> openMovieDetails(movie) }
-        val adapter = MoviesAdapter(onMovieItemClicked)
-        binding.moviesRecyclerView.layoutManager = GridLayoutManager(context, NUMBER_OF_COLUMNS)
+        //val adapter = MoviesAdapter(emptyList(), onMovieItemClicked)
+        val adapter = CategoryAdapter(onMovieItemClicked)
+        binding.moviesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.moviesRecyclerView.adapter = adapter
-        binding.swipeRefresh.setOnRefreshListener { viewModel.onRefreshLayout() }
-
+        binding.swipeRefresh.setOnRefreshListener {
+            adapter.clearList()
+            viewModel.onRefreshLayout()
+        }
 
         viewModel.showLoading.observe(viewLifecycleOwner, Observer {
             showLoading(it)
         })
 
-        viewModel.movies.observe(viewLifecycleOwner, Observer {
-            adapter.submitItems(it)
+        viewModel.popularMovies.observe(viewLifecycleOwner, Observer { list ->
+            //adapter.submitItems(it)
+            adapter.addItem(CategoryItem("Популярные", list))
+            binding.swipeRefresh.isRefreshing = false
+        })
+
+        viewModel.upcomingMovies.observe(viewLifecycleOwner, Observer { list ->
+            //adapter.submitItems(it)
+            adapter.addItem(CategoryItem("Новые", list))
+            binding.swipeRefresh.isRefreshing = false
+        })
+
+        viewModel.nowPlayingMovies.observe(viewLifecycleOwner, Observer { list ->
+            //adapter.submitItems(it)
+            adapter.addItem(CategoryItem("Рекомендуемые", list))
             binding.swipeRefresh.isRefreshing = false
         })
 
         viewModel.errors.observe(viewLifecycleOwner, Observer {
             showToast(it.message ?: "Unknown error")
+            binding.swipeRefresh.isRefreshing = false
         })
     }
-
-
 
     private fun openMovieDetails(movie: MoviePreview) {
         val bundle = Bundle()
@@ -71,7 +86,6 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
     }
 
     private fun showLoading(show: Boolean) {
-
         if (show) {
             binding.moviesRecyclerView.visibility = View.GONE
             binding.animationView.visibility = View.VISIBLE

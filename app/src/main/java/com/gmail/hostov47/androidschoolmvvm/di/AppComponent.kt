@@ -17,7 +17,6 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AppModule::class], )
 interface AppComponent {
-    fun inject(app: ImdbApp)
     fun getHomeComponent(): HomeComponent
     fun getDetailsComponent(): DetailsComponent
     fun getFavoriteMoviesComponent(): FavoriteMoviesComponent

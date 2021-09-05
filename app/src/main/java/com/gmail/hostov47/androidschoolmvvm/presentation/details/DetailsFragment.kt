@@ -4,9 +4,13 @@
 
 package com.gmail.hostov47.androidschoolmvvm.presentation.details
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
@@ -18,11 +22,14 @@ import com.gmail.hostov47.androidschoolmvvm.models.presentation.MovieDetailsWith
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BindingFragment
 import com.gmail.hostov47.androidschoolmvvm.presentation.details.adapters.ActorItem
 import com.gmail.hostov47.androidschoolmvvm.presentation.home.HomeFragment
+import com.google.android.material.button.MaterialButton
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import javax.inject.Inject
 
-class DetailsFragment : BindingFragment<FragmentDetailsBinding>(){
+class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
+    private val animationSet = AnimatorSet()
+
     override val bindingInflater: (LayoutInflater) -> ViewBinding
         get() = FragmentDetailsBinding::inflate
 
@@ -51,34 +58,44 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>(){
         super.onViewCreated(view, savedInstanceState)
         binding.swipeRefresh.setOnRefreshListener { viewModel.onRefreshLayout(movieId) }
         viewModel.getMovieDetails(movieId)
-        viewModel.showLoading.observe(viewLifecycleOwner, Observer {
+        /*viewModel.showLoading.observe(viewLifecycleOwner, Observer {
             showLoading(it)
-        })
+        })*/
 
-        binding.cbFavorite.setOnCheckedChangeListener { _, checked ->
-            if (checked) {
+        binding.cbFavorite.setOnClickListener { view ->
+            if ((view as AppCompatCheckBox).isChecked) {
                 movie?.let {
                     viewModel.addToFavorite(it)
+                    snackBarCancelable(getString(R.string.added_to_favorits)) {
+                        viewModel.removeFromFavorite(it)
+                    }
                 }
             } else {
                 movie?.let {
                     viewModel.removeFromFavorite(it)
+                    snackBarCancelable(getString(R.string.removed_from_favorits)) {
+                        viewModel.addToFavorite(it)
+                    }
                 }
             }
         }
         binding.btnWatch.setOnClickListener {
-            with(binding){
+            with(binding) {
                 if (btnWatch.isSelected) {
                     movie?.let {
                         viewModel.removeFromWatchList(it)
-                        btnWatch.text = getString(R.string.watch_str)
-                        btnWatch.isSelected = false
+                        unselectButtonWatch(btnWatch)
+                        snackBarCancelable(getString(R.string.removed_from_watchlist)) {
+                            viewModel.addToWatchList(it)
+                        }
                     }
                 } else {
                     movie?.let {
                         viewModel.addToWatchList(it)
-                        btnWatch.text = getString(R.string.will_watch)
-                        btnWatch.isSelected = true
+                        selectButtonWatch(btnWatch)
+                        snackBarCancelable(getString(R.string.added_to_watchlist)) {
+                            viewModel.removeFromWatchList(it)
+                        }
                     }
                 }
             }
@@ -89,31 +106,49 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>(){
         })
 
         viewModel.isInWatchList.observe(viewLifecycleOwner, Observer { isInWatchList ->
-            with(binding){
+            with(binding) {
                 if (isInWatchList) {
-                    btnWatch.isSelected = true
-                    btnWatch.text = getString(R.string.will_watch)
+                    selectButtonWatch(btnWatch)
                 } else {
-                    btnWatch.isSelected = false
-                    btnWatch.text = getString(R.string.watch_str)
+                    unselectButtonWatch(btnWatch)
                 }
             }
         })
 
         viewModel.detailsWithCast.observe(viewLifecycleOwner, Observer { result ->
-            when(result) {
-                Result.Empty -> {}
-                is Result.Error -> showToast(result.message)
+            when (result) {
+                Result.Loading -> {
+                    showLoading()
+                }
+                is Result.Error -> {
+                    showToast(result.error.message ?: "Unknown error")
+                    binding.swipeRefresh.isRefreshing = false
+                }
                 is Result.Success -> {
+
                     movie = result.data
                     bindMovie(movie!!)
+                    hideLoading()
                     binding.swipeRefresh.isRefreshing = false
+                    animateRatingBar(movie!!.rating)
                 }
             }
         })
     }
 
-    private fun showLoading(showLoading: Boolean) {
+    private fun selectButtonWatch(btnWatch: MaterialButton) {
+        btnWatch.text = getString(R.string.will_watch)
+        btnWatch.isSelected = true
+        btnWatch.icon = resources.getDrawable(R.drawable.ic_baseline_check_24)
+    }
+
+    private fun unselectButtonWatch(btnWatch: MaterialButton) {
+        btnWatch.text = getString(R.string.watch_str)
+        btnWatch.isSelected = false
+        btnWatch.icon = null
+    }
+
+    /*private fun showLoading(showLoading: Boolean) {
         if (showLoading) {
             binding.contentLayout.visibility = View.GONE
             binding.animationView.visibility = View.VISIBLE
@@ -123,10 +158,25 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>(){
             binding.animationView.visibility = View.GONE
             binding.contentLayout.visibility = View.VISIBLE
         }
+    }*/
+
+    private fun showLoading() {
+        binding.contentLayout.visibility = View.GONE
+        binding.animationView.visibility = View.VISIBLE
+        binding.animationView.playAnimation()
+    }
+
+    private fun hideLoading() {
+        binding.animationView.cancelAnimation()
+        binding.animationView.visibility = View.GONE
+        binding.contentLayout.visibility = View.VISIBLE
     }
 
     private fun bindMovie(movieDetails: MovieDetailsWithCast) {
-        binding.ivMoviePoster.load(movieDetails.posterPath!!)
+        if (movieDetails.posterPath?.isNotEmpty() == true)
+            binding.ivMoviePoster.load(movieDetails.posterPath)
+        else
+            binding.ivMoviePoster.load(R.drawable.ic_image_not_supported)
         binding.tvMovieTitle.text = movieDetails.title
         binding.ratingBar.rating = movieDetails.rating
         binding.tvMovieDescription.text = movieDetails.overview
@@ -138,8 +188,33 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>(){
         binding.rvCast.adapter = adapter.apply { update(actorsItem) }
     }
 
+    private fun animateRatingBar(rating: Float) {
+        val ratingAnimation: ObjectAnimator = ObjectAnimator.ofFloat(
+            binding.ratingBar,
+            "rating",
+            0f,
+            rating
+        ).apply {
+            duration = 800
+        }
+        val scaleAnimation = ValueAnimator.ofFloat(1f, 1.4f)
+            .apply {
+                duration = 400
+                repeatMode = ValueAnimator.REVERSE
+                repeatCount = 1
+                addUpdateListener { animator: ValueAnimator ->
+                    val scale = animator.animatedValue as Float
+                    binding.ratingBar.scaleX = scale
+                    binding.ratingBar.scaleY = scale
+                }
+            }
+        animationSet.playSequentially(ratingAnimation, scaleAnimation)
+        animationSet.start()
+    }
+
     override fun onStop() {
         super.onStop()
         binding.animationView.cancelAnimation()
+        animationSet.cancel()
     }
 }

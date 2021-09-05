@@ -1,5 +1,6 @@
 package com.gmail.hostov47.androidschoolmvvm.domain.interactors
 
+import com.gmail.hostov47.androidschoolmvvm.data.mappers.FromMovieLocalToMovieDomainMapper
 import com.gmail.hostov47.androidschoolmvvm.data.repository.home.MoviesRepository
 import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDomain
 import io.reactivex.Single
@@ -17,19 +18,21 @@ class MoviesInteractor @Inject constructor(private val moviesRepository: MoviesR
     @Throws(IOException::class, IllegalStateException::class)
     fun getPopularMovies(forceLoad: Boolean, caching: Boolean): List<MovieDomain> =
         moviesRepository.getPopularMovies(forceLoad, caching)
-            .map { MovieDomain(isAdult = it.isAdult,
-                overview = it.overview,
-                releaseDate = it.releaseDate,
-                genreIds = it.genreIds,
-                id = it.id,
-                originalTitle = it.originalTitle,
-                originalLanguage = it.originalLanguage,
-                title = it.title,
-                backdropPath = it.backdropPath,
-                popularity = it.popularity,
-                voteCount = it.voteCount,
-                video = it.video,
-                voteAverage = it.voteAverage,
-                posterPath = it.posterPath)
+            .map { localMovie ->
+                FromMovieLocalToMovieDomainMapper.map(localMovie)
+            }
+
+    @Throws(IOException::class, IllegalStateException::class)
+    fun getUpcomingMovies(forceLoad: Boolean, caching: Boolean): List<MovieDomain> =
+        moviesRepository.getUpcomingMovies(forceLoad, caching)
+            .map { localMovie ->
+                FromMovieLocalToMovieDomainMapper.map(localMovie)
+            }
+
+    @Throws(IOException::class, IllegalStateException::class)
+    fun getNowPlayingMovies(forceLoad: Boolean, caching: Boolean): List<MovieDomain> =
+        moviesRepository.getNowPlayingMovies(forceLoad, caching)
+            .map { localMovie ->
+                FromMovieLocalToMovieDomainMapper.map(localMovie)
             }
 }

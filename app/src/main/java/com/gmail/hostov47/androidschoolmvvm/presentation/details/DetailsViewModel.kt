@@ -34,10 +34,7 @@ class DetailsViewModel(
     private val schedulers: SchedulersProvider
 ) : BaseViewModel() {
 
-    private val _showLoading = MutableLiveData<Boolean>(true)
-    val showLoading: LiveData<Boolean> = _showLoading
-
-    private val _detailsWithCast = MutableLiveData<Result>(Result.Empty)
+    private val _detailsWithCast = MutableLiveData<Result>(Result.Loading)
     val detailsWithCast: LiveData<Result> = _detailsWithCast
 
     private val _isFavorite = MutableLiveData<Boolean>()
@@ -48,45 +45,34 @@ class DetailsViewModel(
 
 
     /**
-    * Метод, получающий детальную информацию о фильме вместе со списком актеров и команды.
-    *
-    * @param movieId идентификатор фильма.
-    */
+     * Метод, получающий детальную информацию о фильме вместе со списком актеров и команды.
+     *
+     * @param movieId идентификатор фильма.
+     */
     fun getMovieDetails(movieId: Int, forceLoad: Boolean = false) {
         val movieDetails = Single.fromCallable { interactor.getMovieDetails(movieId, forceLoad) }
-        val movieCast = Single.fromCallable { interactor.getMovieCast(movieId, forceLoad)
-            .map { Cast(it.id, it.name, it.fullPosterPath) } }
+
+        val movieCast = Single.fromCallable {
+            interactor.getMovieCast(movieId, forceLoad)
+                .map { Cast(it.id, it.name, it.fullPosterPath) }
+        }
+
         val zipper =
             BiFunction<MovieDetailsDomain, List<Cast>, MovieDetailsWithCast> { detail, cast ->
                 detail.toMovieDetailsWithCast(cast)
             }
         Single.zip(movieDetails, movieCast, zipper)
-            .delay(2, TimeUnit.SECONDS)
+            .delay(1, TimeUnit.SECONDS)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .doOnSubscribe { _showLoading.value = true }
+            .doOnSubscribe { _detailsWithCast.value = Result.Loading }
             .subscribe(
-                {
-                    _showLoading.value = false
-                    _detailsWithCast.value = Result.Success(it)
-
-                    interactor.isMovieFavorite(it)
-                        .subscribeOn(schedulers.io())
-                        .observeOn(schedulers.ui())
-                        .subscribe(
-                            {isFavorite -> _isFavorite.value = isFavorite},
-                            {e -> Result.Error(e.message ?: "Unknown error")}
-                        ).addTo(compositeDisposable)
-
-                    interactor.isMovieInWatchList(it)
-                        .subscribeOn(schedulers.io())
-                        .observeOn(schedulers.ui())
-                        .subscribe(
-                            {isWatched -> _isInWatchList.value = isWatched},
-                            {e -> Result.Error(e.message ?: "Unknown error")}
-                        ).addTo(compositeDisposable)
+                { movie ->
+                    _detailsWithCast.value = Result.Success(movie)
+                    requestMovieIsFavorite(movie)
+                    requestMovieIsInWatchList(movie)
                 },
-                { e -> Result.Error(e.message ?: "Unknown error") }
+                { e -> _detailsWithCast.value = Result.Error(e) }
             ).addTo(compositeDisposable)
     }
 
@@ -94,14 +80,18 @@ class DetailsViewModel(
         Completable.fromAction { interactor.addToFavorite(movie) }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .subscribe()
+            .subscribe {
+                _isFavorite.value = true
+            }.addTo(compositeDisposable)
     }
 
     fun removeFromFavorite(movie: MovieDetailsWithCast) {
         Completable.fromAction { interactor.removeFromFavorite(movie) }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .subscribe()
+            .subscribe {
+                _isFavorite.value = false
+            }.addTo(compositeDisposable)
     }
 
     fun onRefreshLayout(movieId: Int) {
@@ -112,18 +102,45 @@ class DetailsViewModel(
         Completable.fromAction { interactor.removeFromWatchWist(movie) }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .subscribe()
+            .subscribe {
+                _isInWatchList.value = false
+            }.addTo(compositeDisposable)
     }
 
     fun addToWatchList(movie: MovieDetailsWithCast) {
         Completable.fromAction { interactor.addToWatchList(movie) }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .subscribe()
+            .subscribe {
+                _isInWatchList.value = true
+            }.addTo(compositeDisposable)
+    }
+
+    private fun requestMovieIsFavorite(movie: MovieDetailsWithCast) {
+        interactor.isMovieFavorite(movie)
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe(
+                { isFavorite -> _isFavorite.value = isFavorite },
+                {  }
+            ).addTo(compositeDisposable)
+    }
+
+    private fun requestMovieIsInWatchList(movie: MovieDetailsWithCast) {
+        interactor.isMovieInWatchList(movie)
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe(
+                { isWatched -> _isInWatchList.value = isWatched },
+                {  }
+            ).addTo(compositeDisposable)
     }
 }
 
-class DetailsViewModelFactory @Inject constructor(private val interactor: MovieDetailsInteractor,private val schedulers: SchedulersProvider) :
+class DetailsViewModelFactory @Inject constructor(
+    private val interactor: MovieDetailsInteractor,
+    private val schedulers: SchedulersProvider
+) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return DetailsViewModel(interactor, schedulers) as T
@@ -132,6 +149,6 @@ class DetailsViewModelFactory @Inject constructor(private val interactor: MovieD
 
 sealed class Result {
     class Success(val data: MovieDetailsWithCast) : Result()
-    class Error(val message: String) : Result()
-    object Empty : Result()
+    class Error(val error: Throwable) : Result()
+    object Loading : Result()
 }

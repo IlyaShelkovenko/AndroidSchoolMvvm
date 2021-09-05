@@ -15,6 +15,7 @@ import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApiImpl
 import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStore
 import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStoreImpl
 import com.gmail.hostov47.androidschoolmvvm.data.local.db.MovieDb
+import com.gmail.hostov47.androidschoolmvvm.utils.ConnectionCheckInterceptor
 import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
 import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProviderImpl
 import dagger.Binds
@@ -42,6 +43,7 @@ class AppModule(private val appContext: ImdbApp) {
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
+            .addInterceptor(ConnectionCheckInterceptor(context = appContext))
             .build()
 
     @Provides

@@ -23,11 +23,6 @@ class ImdbApp: Application() {
             .build()
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        appComponent.inject(this)
-    }
-
     companion object {
         private var instance : ImdbApp? = null
 

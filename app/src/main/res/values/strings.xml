@@ -25,6 +25,11 @@
     <string name="default_login">Гость</string>
     <string name="pref_key_show_avatar">SHOW_AVATAR</string>
     <string name="show_avatar">Показывать аватар</string>
+    <string name="cancel_action">Отменить</string>
+    <string name="removed_from_watchlist">Фильм удален из списка фильмов к просмотру</string>
+    <string name="added_to_watchlist">Фильм добавлен в список фильмов к просмотру</string>
+    <string name="removed_from_favorits">Фильм удален из списка понравившихся</string>
+    <string name="added_to_favorits">Фильм добавлен в список понравившихся</string>
 
     <string-array name="tab_titles">
         <item>Понравилось</item>

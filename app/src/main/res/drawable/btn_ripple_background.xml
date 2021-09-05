@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/btnBackgroundGray">
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/textColorGrey"/>
-            <corners android:radius="32dp" />
-        </shape>
-        <selector xmlns:android="http://schemas.android.com/apk/res/android" >
-            <item
-                android:drawable="@color/btnBackgroundGray"
-                android:state_checked="false"/>
-            <item
-                android:drawable="@color/blueDark"
-                android:state_checked="true" />
-            <item
-                android:drawable="@color/btnBackgroundGray" />
 
-        </selector>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/purple_200"
+        android:state_selected="false">
     </item>
-</ripple>
+    <item android:drawable="@color/purple_200_transparent"
+        android:state_selected="true" />
+</selector>

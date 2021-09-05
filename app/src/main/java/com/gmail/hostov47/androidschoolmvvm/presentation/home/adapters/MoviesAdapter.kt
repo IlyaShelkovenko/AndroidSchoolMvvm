@@ -15,9 +15,7 @@ import com.gmail.hostov47.androidschoolmvvm.extensions.load
  *
  * @author Шелковенко Илья on 2021-08-04
  */
-class MoviesAdapter(private val onClickListener: OnMovieItemClick) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
-
-    private var movies: List<MoviePreview> = emptyList()
+class MoviesAdapter(private var movies: List<MoviePreview>, private val onClickListener: OnMovieItemClick) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
     fun submitItems(newMovies: List<MoviePreview>) {
         movies = newMovies

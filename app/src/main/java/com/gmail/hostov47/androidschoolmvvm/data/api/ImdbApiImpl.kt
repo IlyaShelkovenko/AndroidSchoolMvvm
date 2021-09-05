@@ -26,6 +26,20 @@ class ImdbApiImpl @Inject constructor (private val okHttpClient: OkHttpClient, p
         }
     }
 
+    override fun getUpcomingMovies(): MoviesResponse {
+        val request = createGetRequest("${BASE_URL}movie/upcoming?api_key=${API_KEY}&language=ru")
+        return okHttpClient.newCall(request).execute().use { response ->
+            json.decodeFromString(response.body?.string().orEmpty())
+        }
+    }
+
+    override fun getNowPlayingMovies(): MoviesResponse {
+        val request = createGetRequest("${BASE_URL}movie/now_playing?api_key=${API_KEY}&language=ru")
+        return okHttpClient.newCall(request).execute().use { response ->
+            json.decodeFromString(response.body?.string().orEmpty())
+        }
+    }
+
     override fun getMovieDetails(movieId: Int): MovieDetailResponse {
         val request = createGetRequest("${BASE_URL}movie/$movieId?api_key=${API_KEY}&language=ru")
         return okHttpClient.newCall(request).execute().use { response ->
