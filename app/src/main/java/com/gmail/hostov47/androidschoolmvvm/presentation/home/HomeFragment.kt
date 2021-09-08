@@ -78,7 +78,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
     private fun openMovieDetails(movie: MoviePreview) {
         val bundle = Bundle()
         bundle.putInt(MOVIE_ID, movie.movieId ?: 0)
-        findNavController().navigate(R.id.detailsFragment, bundle)
+        findNavController().navigate(R.id.detailsFragment, bundle, options)
     }
 
     private fun showLoading(show: Boolean) {

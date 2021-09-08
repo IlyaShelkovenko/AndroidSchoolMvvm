@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.navOptions
 import androidx.viewbinding.ViewBinding
 import com.gmail.hostov47.androidschoolmvvm.R
 import com.google.android.material.snackbar.Snackbar
@@ -19,6 +20,15 @@ abstract class BindingFragment<out T : ViewBinding> : Fragment() {
     protected val binding: T
         get() = _binding as T
     protected abstract val bindingInflater: (LayoutInflater) -> ViewBinding
+
+    protected val options = navOptions {
+        anim {
+            enter = R.anim.slide_in_right
+            exit = R.anim.slide_out_left
+            popEnter = R.anim.slide_in_left
+            popExit = R.anim.slide_out_right
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

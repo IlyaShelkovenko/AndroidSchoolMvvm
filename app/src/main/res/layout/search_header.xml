@@ -53,16 +53,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <!--<com.gmail.hostov47.androidschoolmvvm.utils.SearchBar
+                        <com.gmail.hostov47.androidschoolmvvm.presentation.search.SearchBar
                             android:id="@+id/search_toolbar"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/search_bar_height"
                             android:layout_marginTop="@dimen/material_margin_normal"
                             android:layout_marginBottom="@dimen/material_margin_normal"
-                            app:hint="@string/search_hint" />-->
+                            app:hint="@string/search_hint" />
 
                         <View
-                            android:layout_marginTop="@dimen/material_margin_large"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/material_margin_large"
                             android:background="@drawable/list_background" />

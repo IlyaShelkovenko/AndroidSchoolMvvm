@@ -62,9 +62,6 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         setupActionBar()
         binding.swipeRefresh.setOnRefreshListener { viewModel.onRefreshLayout(movieId) }
         viewModel.getMovieDetails(movieId)
-        /*viewModel.showLoading.observe(viewLifecycleOwner, Observer {
-            showLoading(it)
-        })*/
 
         binding.cbFavorite.setOnClickListener { view ->
             if ((view as AppCompatCheckBox).isChecked) {
@@ -129,7 +126,6 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
                     binding.swipeRefresh.isRefreshing = false
                 }
                 is Result.Success -> {
-
                     movie = result.data
                     bindMovie(movie!!)
                     hideLoading()

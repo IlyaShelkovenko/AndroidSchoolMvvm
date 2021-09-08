@@ -2,7 +2,7 @@
  * Created by Ilia Shelkovenko on 05.09.2021.
  */
 
-package com.gmail.hostov47.androidschoolmvvm.utils
+package com.gmail.hostov47.androidschoolmvvm.presentation.search
 
 import android.content.Context
 import android.util.AttributeSet

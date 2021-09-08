@@ -7,6 +7,7 @@ import com.gmail.hostov47.androidschoolmvvm.BuildConfig
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MovieCreditsResponse
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MovieDetailResponse
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MoviesResponse
+import com.gmail.hostov47.androidschoolmvvm.models.data.dto.SearchMovieResponse
 import java.io.IOException
 
 /**
@@ -56,4 +57,13 @@ interface ImdbApi {
      */
     @Throws(IOException::class, IllegalStateException::class)
     fun getMovieCredits(movieId: Int): MovieCreditsResponse
+
+    /**
+     * Получить список фильмов по поисковому запросу
+     *
+     * @param query поисковый запрос фильма
+     * @return ответ со списком найденных фильмов [SearchMovieResponse]
+     */
+    @Throws(IOException::class, IllegalStateException::class)
+    fun searchMovies(query: String): SearchMovieResponse
 }

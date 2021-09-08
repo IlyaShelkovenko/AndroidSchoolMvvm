@@ -34,6 +34,7 @@
     <string name="search_hint">Введите название</string>
     <string name="close">закрыть поиск</string>
     <string name="search_str">Поиск</string>
+    <string name="PREFS_FOR_CASHING">prefs_for_caching</string>
 
     <string-array name="tab_titles">
         <item>Понравилось</item>

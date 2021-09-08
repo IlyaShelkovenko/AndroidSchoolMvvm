@@ -62,6 +62,6 @@ class WatchListFragment : BindingFragment<FragmentWatchlistBinding>() {
     private fun openMovieDetails(movie: MoviePreview) {
         val bundle = Bundle()
         bundle.putInt(HomeFragment.MOVIE_ID, movie.movieId ?: 0)
-        findNavController().navigate(R.id.detailsFragment, bundle)
+        findNavController().navigate(R.id.detailsFragment, bundle, options)
     }
 }

@@ -117,8 +117,7 @@ class HomeViewModelFactory @Inject constructor(
     @Named("DefaultPrefs")
     private val prefs: SharedPreferences,
     private val resources: Resources
-) :
-    ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return HomeViewModel(interactor, schedulers, prefs, resources) as T
     }

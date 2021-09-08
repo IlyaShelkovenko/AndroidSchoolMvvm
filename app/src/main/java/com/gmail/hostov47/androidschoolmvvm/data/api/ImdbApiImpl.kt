@@ -3,6 +3,7 @@ package com.gmail.hostov47.androidschoolmvvm.data.api
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MovieCreditsResponse
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MovieDetailResponse
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MoviesResponse
+import com.gmail.hostov47.androidschoolmvvm.models.data.dto.SearchMovieResponse
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
@@ -49,6 +50,13 @@ class ImdbApiImpl @Inject constructor (private val okHttpClient: OkHttpClient, p
 
     override fun getMovieCredits(movieId: Int): MovieCreditsResponse {
         val request = createGetRequest("${BASE_URL}movie/$movieId/credits?api_key=${API_KEY}&language=ru")
+        return okHttpClient.newCall(request).execute().use { response ->
+            json.decodeFromString(response.body?.string().orEmpty())
+        }
+    }
+
+    override fun searchMovies(query: String): SearchMovieResponse {
+        val request = createGetRequest("${BASE_URL}search/movie?query=${query}&api_key=${API_KEY}&language=ru")
         return okHttpClient.newCall(request).execute().use { response ->
             json.decodeFromString(response.body?.string().orEmpty())
         }

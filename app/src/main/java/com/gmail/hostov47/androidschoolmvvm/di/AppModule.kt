@@ -10,6 +10,7 @@ import android.content.res.Resources
 import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.gmail.hostov47.androidschoolmvvm.ImdbApp
+import com.gmail.hostov47.androidschoolmvvm.R
 import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApi
 import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApiImpl
 import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStore
@@ -58,7 +59,7 @@ class AppModule(private val appContext: ImdbApp) {
     @Provides
     @Singleton
     fun provideSharedPreferences(appContext: ImdbApp): SharedPreferences {
-        return appContext.getSharedPreferences("prefs_for_caching", Context.MODE_PRIVATE)
+        return appContext.getSharedPreferences(appContext.getString(R.string.PREFS_FOR_CASHING), Context.MODE_PRIVATE)
     }
 
     @Provides
