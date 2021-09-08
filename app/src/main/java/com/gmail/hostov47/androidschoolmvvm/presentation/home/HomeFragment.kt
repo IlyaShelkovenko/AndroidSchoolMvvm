@@ -42,7 +42,6 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val onMovieItemClicked = OnMovieItemClick { movie -> openMovieDetails(movie) }
-        //val adapter = MoviesAdapter(emptyList(), onMovieItemClicked)
         val adapter = CategoryAdapter(onMovieItemClicked)
         binding.moviesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.moviesRecyclerView.adapter = adapter
@@ -56,19 +55,16 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
         })
 
         viewModel.popularMovies.observe(viewLifecycleOwner, Observer { list ->
-            //adapter.submitItems(it)
             adapter.addItem(CategoryItem("Популярные", list))
             binding.swipeRefresh.isRefreshing = false
         })
 
         viewModel.upcomingMovies.observe(viewLifecycleOwner, Observer { list ->
-            //adapter.submitItems(it)
             adapter.addItem(CategoryItem("Новые", list))
             binding.swipeRefresh.isRefreshing = false
         })
 
         viewModel.nowPlayingMovies.observe(viewLifecycleOwner, Observer { list ->
-            //adapter.submitItems(it)
             adapter.addItem(CategoryItem("Рекомендуемые", list))
             binding.swipeRefresh.isRefreshing = false
         })

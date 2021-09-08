@@ -25,8 +25,10 @@
         android:id="@+id/profile_fragment"
         android:name="com.gmail.hostov47.androidschoolmvvm.presentation.profile.ProfileFragment"
         android:label="ProfileFragment" >
-        <action
-            android:id="@+id/action_profile_fragment_to_settings_fragment"
-            app:destination="@id/settings_fragment" />
+
     </fragment>
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="com.gmail.hostov47.androidschoolmvvm.presentation.search.SearchFragment"
+        android:label="SearchFragment" />
 </navigation>

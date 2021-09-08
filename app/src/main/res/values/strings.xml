@@ -15,11 +15,11 @@
     <string name="test_description">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</string>
     <string name="pref_key_caching">CASHING</string>
     <string name="caching_data">Кешировать данные</string>
-    <string name="home_str">Home</string>
-    <string name="settings_str">Settings</string>
+    <string name="home_str">Главная</string>
+    <string name="settings_str">Настройки</string>
     <string name="main_settings">Основные настройки</string>
     <string name="main_settings_key">MAIN_SETTINGS_KEY</string>
-    <string name="Profile">Profile</string>
+    <string name="Profile">Профиль</string>
     <string name="login">Имя пользователя</string>
     <string name="pref_key_login">LOGIN</string>
     <string name="default_login">Гость</string>
@@ -30,6 +30,10 @@
     <string name="added_to_watchlist">Фильм добавлен в список фильмов к просмотру</string>
     <string name="removed_from_favorits">Фильм удален из списка понравившихся</string>
     <string name="added_to_favorits">Фильм добавлен в список понравившихся</string>
+    <string name="home_title">Что будем смотреть сегодня?</string>
+    <string name="search_hint">Введите название</string>
+    <string name="close">закрыть поиск</string>
+    <string name="search_str">Поиск</string>
 
     <string-array name="tab_titles">
         <item>Понравилось</item>

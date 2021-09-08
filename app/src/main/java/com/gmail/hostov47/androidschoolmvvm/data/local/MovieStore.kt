@@ -11,17 +11,43 @@ import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
  */
 interface MovieStore {
     /**
-     * Сохрнить фильмы
+     * Сохрнить популярные фильмы
      * @param movies список фильмов [MovieLocal]
      */
-    fun saveMovies(movies: List<MovieLocal>)
+    fun savePopularMovies(movies: List<MovieLocal>)
 
     /**
-     * Получить фильмы
+     * Сохрнить новые фильмы
+     * @param movies список фильмов [MovieLocal]
+     */
+    fun saveUpcomingMovies(movies: List<MovieLocal>)
+
+    /**
+     * Сохрнить рекомендуемые фильмы
+     * @param movies список фильмов [MovieLocal]
+     */
+    fun saveNowPlayingMovies(movies: List<MovieLocal>)
+
+    /**
+     * Получить популярные фильмы
      *
      * @return список фильмов [MovieLocal], [null] если фильмов нет
      */
-    fun getMovies(): List<MovieLocal>?
+    fun getPopularMovies(): List<MovieLocal>?
+
+    /**
+     * Получить новые фильмы
+     *
+     * @return список фильмов [MovieLocal], [null] если фильмов нет
+     */
+    fun getUpcomingMovies(): List<MovieLocal>?
+
+    /**
+     * Получить рекомендуемые фильмы
+     *
+     * @return список фильмов [MovieLocal], [null] если фильмов нет
+     */
+    fun getNowPlayingMovies(): List<MovieLocal>?
 
     /**
      * Получить детальную информацию о фильме

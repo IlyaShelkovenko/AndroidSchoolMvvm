@@ -15,4 +15,5 @@
     <color name="btnBackgroundGray">#6f7073</color>
     <color name="blue_light">#606E97</color>
     <color name="yellow">#FCD307</color>
+    <color name="textColorLight">#FFFFFF</color>
 </resources>

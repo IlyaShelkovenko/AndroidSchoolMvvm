@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.gmail.hostov47.androidschoolmvvm.R
 import com.gmail.hostov47.androidschoolmvvm.domain.interactors.MoviesInteractor
 import com.gmail.hostov47.androidschoolmvvm.extensions.addTo
+import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDomain
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
 import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
@@ -51,9 +52,6 @@ class HomeViewModel(
     private val _nowPlayingMovies = MutableLiveData<List<MoviePreview>>()
     val nowPlayingMovies: LiveData<List<MoviePreview>> = _nowPlayingMovies
 
-    /*private val _movies = MutableLiveData<List<MoviePreview>>()
-    val movies: LiveData<List<MoviePreview>> = _movies*/
-
     private val _showLoading = MutableLiveData<Boolean>(true)
     val showLoading: LiveData<Boolean> = _showLoading
 
@@ -66,52 +64,42 @@ class HomeViewModel(
         loadNowPlayingMovies(caching = caching)
     }
 
+    fun onRefreshLayout() {
+        loadUpcomingMovies(true, caching)
+        loadPopularMovies(true, caching)
+        loadNowPlayingMovies(true, caching)
+    }
+
     private fun loadUpcomingMovies(forceLoad: Boolean = false, caching: Boolean = true) {
         Single.fromCallable { interactor.getPopularMovies(forceLoad, caching) }
-            .map {
-                it.map { movie ->
-                    MoviePreview(
-                        movieId = movie.id,
-                        title = movie.title,
-                        poster = movie.fullPosterPath,
-                        rating = movie.rating
-                    )
-                }
-            }
-            .delay(2, TimeUnit.SECONDS)
-            .subscribeOn(schedulers.io())
-            .observeOn(schedulers.ui())
-            .doFinally { _showLoading.value = false }
-            .doOnSubscribe { _showLoading.value = true }
+            .loadMovieChain()
             .subscribe(_upcomingMovies::setValue, _errors::setValue)
             .addTo(compositeDisposable)
     }
 
     private fun loadPopularMovies(forceLoad: Boolean = false, caching: Boolean = true) {
         Single.fromCallable { interactor.getUpcomingMovies(forceLoad, caching) }
-            .map {
-                it.map { movie ->
-                    MoviePreview(
-                        movieId = movie.id,
-                        title = movie.title,
-                        poster = movie.fullPosterPath,
-                        rating = movie.rating
-                    )
-                }
-            }
-            .delay(2, TimeUnit.SECONDS)
-            .subscribeOn(schedulers.io())
-            .observeOn(schedulers.ui())
-            .doFinally { _showLoading.value = false }
-            .doOnSubscribe { _showLoading.value = true }
+            .loadMovieChain()
             .subscribe(_popularMovies::setValue, _errors::setValue)
             .addTo(compositeDisposable)
     }
 
     private fun loadNowPlayingMovies(forceLoad: Boolean = false, caching: Boolean = true) {
-            Single.fromCallable { interactor.getNowPlayingMovies(forceLoad, caching) }
-            .map {
-                it.map { movie ->
+        Single.fromCallable { interactor.getNowPlayingMovies(forceLoad, caching) }
+            .loadMovieChain()
+            .subscribe(_nowPlayingMovies::setValue, _errors::setValue)
+            .addTo(compositeDisposable)
+    }
+
+    private fun Single<List<MovieDomain>>.loadMovieChain(): Single<List<MoviePreview>> {
+        return this
+            .delay(2, TimeUnit.SECONDS)
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .doFinally { _showLoading.value = false }
+            .doOnSubscribe { _showLoading.value = true }
+            .map { list ->
+                list.map { movie ->
                     MoviePreview(
                         movieId = movie.id,
                         title = movie.title,
@@ -120,19 +108,6 @@ class HomeViewModel(
                     )
                 }
             }
-            .delay(2, TimeUnit.SECONDS)
-            .subscribeOn(schedulers.io())
-            .observeOn(schedulers.ui())
-            .doFinally { _showLoading.value = false }
-            .doOnSubscribe { _showLoading.value = true }
-            .subscribe(_nowPlayingMovies::setValue, _errors::setValue)
-            .addTo(compositeDisposable)
-    }
-
-    fun onRefreshLayout() {
-        loadUpcomingMovies(true, caching)
-        loadPopularMovies(true, caching)
-        loadNowPlayingMovies(true, caching)
     }
 }
 

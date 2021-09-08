@@ -18,7 +18,7 @@
     <dimen name="movie_card_text_width">96dp</dimen>
     <dimen name="close_width">20dp</dimen>
 
-    <dimen name="min_height">100dp</dimen>
+    <dimen name="min_height">56dp</dimen>
 
     <dimen name="movie_title_text_size">32sp</dimen>
     <dimen name="content_text_size">14sp</dimen>
@@ -41,6 +41,8 @@
     <dimen name="title_category_text_size">18sp</dimen>
     <dimen name="margin_12dp">12dp</dimen>
     <dimen name="spacing_tiny_8">4dp</dimen>
+    <dimen name="search_bar_height">56dp</dimen>
+    <dimen name="profile_header_size">150dp</dimen>
 
 
 </resources>

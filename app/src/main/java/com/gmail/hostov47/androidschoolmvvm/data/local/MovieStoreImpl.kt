@@ -11,6 +11,9 @@ import javax.inject.Inject
 import javax.inject.Named
 
 private const val MOVIES_KEY = "MOVIES_KEY"
+private const val POPULAR_MOVIES_KEY = "POPULAR_MOVIES_KEY"
+private const val UPCOMING_MOVIES_KEY = "UPCOMING_MOVIES_KEY"
+private const val NOW_PLAYING_MOVIES_KEY = "NOW_PLAYING_MOVIES_KEY"
 
 class MovieStoreImpl @Inject constructor(
     @Named("Caching")
@@ -18,14 +21,34 @@ class MovieStoreImpl @Inject constructor(
     private val json: Json
 ) : MovieStore {
 
-    override fun saveMovies(movies: List<MovieLocal>) {
+    override fun savePopularMovies(movies: List<MovieLocal>) {
         if (movies.isNotEmpty())
             preferences.edit()
-                .putString(MOVIES_KEY, json.encodeToString(movies)).apply()
+                .putString(POPULAR_MOVIES_KEY, json.encodeToString(movies)).apply()
     }
 
-    override fun getMovies(): List<MovieLocal>? {
-        return preferences.getString(MOVIES_KEY, null)?.let(json::decodeFromString)
+    override fun getPopularMovies(): List<MovieLocal>? {
+        return preferences.getString(POPULAR_MOVIES_KEY, null)?.let(json::decodeFromString)
+    }
+
+    override fun saveUpcomingMovies(movies: List<MovieLocal>) {
+        if (movies.isNotEmpty())
+            preferences.edit()
+                .putString(UPCOMING_MOVIES_KEY, json.encodeToString(movies)).apply()
+    }
+
+    override fun getUpcomingMovies(): List<MovieLocal>? {
+        return preferences.getString(UPCOMING_MOVIES_KEY, null)?.let(json::decodeFromString)
+    }
+
+    override fun saveNowPlayingMovies(movies: List<MovieLocal>) {
+        if (movies.isNotEmpty())
+            preferences.edit()
+                .putString(NOW_PLAYING_MOVIES_KEY, json.encodeToString(movies)).apply()
+    }
+
+    override fun getNowPlayingMovies(): List<MovieLocal>? {
+        return preferences.getString(NOW_PLAYING_MOVIES_KEY, null)?.let(json::decodeFromString)
     }
 
     override fun getMovieDetails(movieId: Int): MovieDetailsLocal? {

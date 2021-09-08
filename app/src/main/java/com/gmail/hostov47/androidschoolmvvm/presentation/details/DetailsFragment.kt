@@ -13,6 +13,8 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.viewbinding.ViewBinding
 import com.gmail.hostov47.androidschoolmvvm.ImdbApp
 import com.gmail.hostov47.androidschoolmvvm.R
@@ -54,8 +56,10 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         (requireActivity().application as ImdbApp).appComponent.getDetailsComponent().inject(this)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupActionBar()
         binding.swipeRefresh.setOnRefreshListener { viewModel.onRefreshLayout(movieId) }
         viewModel.getMovieDetails(movieId)
         /*viewModel.showLoading.observe(viewLifecycleOwner, Observer {
@@ -136,6 +140,13 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         })
     }
 
+    private fun setupActionBar() {
+        val navController = findNavController()
+        binding.toolbar.setupWithNavController(navController)
+        binding.appBarLayout.bringToFront()
+        binding.toolbar.title = ""
+    }
+
     private fun selectButtonWatch(btnWatch: MaterialButton) {
         btnWatch.text = getString(R.string.will_watch)
         btnWatch.isSelected = true
@@ -147,18 +158,6 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         btnWatch.isSelected = false
         btnWatch.icon = null
     }
-
-    /*private fun showLoading(showLoading: Boolean) {
-        if (showLoading) {
-            binding.contentLayout.visibility = View.GONE
-            binding.animationView.visibility = View.VISIBLE
-            binding.animationView.playAnimation()
-        } else {
-            binding.animationView.cancelAnimation()
-            binding.animationView.visibility = View.GONE
-            binding.contentLayout.visibility = View.VISIBLE
-        }
-    }*/
 
     private fun showLoading() {
         binding.contentLayout.visibility = View.GONE

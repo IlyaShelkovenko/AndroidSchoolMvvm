@@ -5,9 +5,12 @@
 package com.gmail.hostov47.androidschoolmvvm.presentation.profile
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import androidx.viewbinding.ViewBinding
 import com.gmail.hostov47.androidschoolmvvm.R
@@ -26,9 +29,8 @@ class ProfileFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.ivSettings.setOnClickListener {
-            findNavController().navigate(R.id.action_profile_fragment_to_settings_fragment)
-        }
+        setupActionBar()
+
         val prefs =
             PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
         binding.tvLogin.text = prefs.getString(
@@ -49,16 +51,18 @@ class ProfileFragment
         doppelgangerViewPager.adapter = profileAdapter
 
         TabLayoutMediator(tabLayout, doppelgangerViewPager) { tab, position ->
-            // Выделение первой части заголовка таба
-            // Название таба
             val title = profileTabLayoutTitles[position]
-            // Раздеряем название на части. Первый элемент будет кол-во
-            //val parts = profileTabLayoutTitles[position].split(" ")
-            /*val number = parts[0]
-            val spannableStringTitle = SpannableString(title)
+            /*val spannableStringTitle = SpannableString(title)
             spannableStringTitle.setSpan(RelativeSizeSpan(2f), 0, number.count(), 0)*/
             tab.text = title
         }.attach()
+    }
+
+    private fun setupActionBar() {
+        val navController = findNavController()
+        binding.toolbar.setupWithNavController(navController)
+        binding.appBarLayout.bringToFront()
+        binding.toolbar.title = ""
     }
 
     companion object {

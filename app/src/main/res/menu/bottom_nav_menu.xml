@@ -8,16 +8,22 @@
         android:orderInCategory="1"
         android:icon="@drawable/ic_baseline_local_movies_24"/>
 
+    <item android:id="@+id/search_fragment"
+        android:title="@string/search_str"
+        app:showAsAction="always"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_search"/>
+
     <item android:id="@+id/profile_fragment"
         android:title="@string/Profile"
         app:showAsAction="always"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:icon="@drawable/ic_person"/>
 
-    <!--<item android:id="@+id/settings_fragment"
+    <item android:id="@+id/settings_fragment"
         android:title="@string/settings_str"
         app:showAsAction="always"
-        android:orderInCategory="3"
-        android:icon="@drawable/ic_baseline_settings_24"/>-->
+        android:orderInCategory="4"
+        android:icon="@drawable/ic_baseline_settings_24"/>
 
 </menu>

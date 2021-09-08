@@ -22,13 +22,13 @@ class MoviesRepositoryImpl @Inject constructor(
     override fun getPopularMovies(forceLoad: Boolean, caching: Boolean): List<MovieLocal> {
         var movies: List<MovieLocal>? = null
         if (!forceLoad)
-            movies = movieStore.getMovies()
+            movies = movieStore.getPopularMovies()
         if (movies == null) {
             movies = moviesApi.getPopularMovies().results.map { movie ->
                 FromMovieToMovieLocalMapper.map(movie)
             }.also {
                 if (caching)
-                    movieStore.saveMovies(it)
+                    movieStore.savePopularMovies(it)
             }
         }
         return movies
@@ -37,13 +37,13 @@ class MoviesRepositoryImpl @Inject constructor(
     override fun getUpcomingMovies(forceLoad: Boolean, caching: Boolean): List<MovieLocal> {
         var movies: List<MovieLocal>? = null
         if (!forceLoad)
-            movies = movieStore.getMovies()
+            movies = movieStore.getUpcomingMovies()
         if (movies == null) {
             movies = moviesApi.getUpcomingMovies().results.map { movie ->
                 FromMovieToMovieLocalMapper.map(movie)
             }.also {
                 if (caching)
-                    movieStore.saveMovies(it)
+                    movieStore.saveUpcomingMovies(it)
             }
         }
         return movies
@@ -52,13 +52,13 @@ class MoviesRepositoryImpl @Inject constructor(
     override fun getNowPlayingMovies(forceLoad: Boolean, caching: Boolean): List<MovieLocal> {
         var movies: List<MovieLocal>? = null
         if (!forceLoad)
-            movies = movieStore.getMovies()
+            movies = movieStore.getNowPlayingMovies()
         if (movies == null) {
             movies = moviesApi.getNowPlayingMovies().results.map { movie ->
                 FromMovieToMovieLocalMapper.map(movie)
             }.also {
                 if (caching)
-                    movieStore.saveMovies(it)
+                    movieStore.saveNowPlayingMovies(it)
             }
         }
         return movies
