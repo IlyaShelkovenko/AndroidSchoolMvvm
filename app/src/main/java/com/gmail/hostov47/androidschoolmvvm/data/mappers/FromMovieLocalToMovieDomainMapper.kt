@@ -1,5 +1,6 @@
 package com.gmail.hostov47.androidschoolmvvm.data.mappers
 
+import com.gmail.hostov47.androidschoolmvvm.BuildConfig
 import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
 import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDomain
 
@@ -17,7 +18,8 @@ object FromMovieLocalToMovieDomainMapper {
             popularity = movie.popularity,
             voteCount = movie.voteCount,
             video = movie.video,
-            voteAverage = movie.voteAverage,
-            posterPath = movie.posterPath)
+            rating = (movie.voteAverage?.toFloat() ?: 0f) / 2,
+            posterPath = movie.posterPath?.let{ "${ BuildConfig.POSTER_PATH}$it" }
+        )
     }
 }

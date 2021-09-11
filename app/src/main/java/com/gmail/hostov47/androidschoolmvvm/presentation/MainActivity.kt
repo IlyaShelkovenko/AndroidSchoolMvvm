@@ -22,17 +22,9 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment? ?: return
 
         navController = host.navController
-        //setupActionBar(navController)
         setUpNavigation()
         PreferenceManager.setDefaultValues(this, R.xml.fragment_settings, false);
     }
-
-    /*private fun setupActionBar(navController: NavController){
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        appBar_layout.bringToFront()
-        NavigationUI.setupActionBarWithNavController(this, navController)
-    }*/
 
     private fun setUpNavigation() {
         val navHostFragment = supportFragmentManager

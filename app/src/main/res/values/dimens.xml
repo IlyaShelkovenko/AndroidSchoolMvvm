@@ -43,6 +43,7 @@
     <dimen name="spacing_tiny_8">4dp</dimen>
     <dimen name="search_bar_height">56dp</dimen>
     <dimen name="profile_header_size">150dp</dimen>
+    <dimen name="header_text_size">26sp</dimen>
 
 
 </resources>

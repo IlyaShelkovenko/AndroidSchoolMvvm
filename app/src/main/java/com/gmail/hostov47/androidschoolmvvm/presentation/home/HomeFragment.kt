@@ -100,6 +100,5 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
 
     companion object {
         const val MOVIE_ID = "MOVIE_ID"
-        const val NUMBER_OF_COLUMNS = 2
     }
 }

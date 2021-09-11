@@ -68,18 +68,4 @@ class SearchBar @JvmOverloads constructor(
             }
         }
     }
-
-    fun formObservable(searchObservable: Observable<String>) : Observable<String> {
-        return searchObservable
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
-            .map { it.trim() }
-            .filter{ it.length > MIN_LENGTH }
-            .observeOn(Schedulers.io())
-    }
-
-    companion object {
-        const val MIN_LENGTH = 3
-        const val DEBOUNCE_TIMEOUT = 1500L
-    }
 }

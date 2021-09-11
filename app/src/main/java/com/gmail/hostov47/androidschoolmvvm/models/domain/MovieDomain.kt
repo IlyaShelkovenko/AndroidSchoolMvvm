@@ -15,19 +15,19 @@ data class MovieDomain(
     var popularity: Double,
     var voteCount: Int,
     var video: Boolean,
-    var voteAverage: Double?,
+    var rating: Float?,
     val posterPath: String?
 ){
-    var fullPosterPath: String = ""
+    /*var fullPosterPath: String = ""
     get() {
         field = if(posterPath != null)
             "${ BuildConfig.POSTER_PATH}$posterPath"
         else ""
         return field
-    }
-    val rating: Float
+    }*/
+    /*val rating: Float
         get() {
             return (voteAverage?.toFloat() ?: 0f) / 2
-        }
+        }*/
 }
 

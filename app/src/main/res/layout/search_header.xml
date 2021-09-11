@@ -32,9 +32,9 @@
                     android:layout_marginTop="@dimen/material_margin_normal"
                     android:layout_marginBottom="@dimen/material_margin_normal"
                     android:gravity="left"
-                    android:text="@string/home_title"
+                    android:text="@string/search_title"
                     android:textColor="@color/textColorLight"
-                    android:textSize="26sp"
+                    android:textSize="@dimen/header_text_size"
                     android:textStyle="bold"
                     tools:ignore="RtlHardcoded"
                     tools:text="Что будете смотреть\nсегодня?" />

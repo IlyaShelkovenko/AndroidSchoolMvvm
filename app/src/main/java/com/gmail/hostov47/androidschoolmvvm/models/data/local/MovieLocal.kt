@@ -25,7 +25,7 @@ data class MovieLocal(
     var voteCount: Int,
     var video: Boolean,
     @SerialName("vote_average")
-    var voteAverage: Double,
+    var voteAverage: Double?,
     @SerialName("poster_path")
     val posterPath: String?
 )

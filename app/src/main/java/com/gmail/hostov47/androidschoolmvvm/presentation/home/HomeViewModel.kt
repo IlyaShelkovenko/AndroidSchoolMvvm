@@ -103,7 +103,7 @@ class HomeViewModel(
                     MoviePreview(
                         movieId = movie.id,
                         title = movie.title,
-                        poster = movie.fullPosterPath,
+                        poster = movie.posterPath ?: "",
                         rating = movie.rating
                     )
                 }

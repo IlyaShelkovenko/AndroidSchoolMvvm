@@ -4,7 +4,8 @@
 
 package com.gmail.hostov47.androidschoolmvvm.presentation.search
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.gmail.hostov47.androidschoolmvvm.domain.interactors.SearchMoviesInteractor
@@ -12,8 +13,8 @@ import com.gmail.hostov47.androidschoolmvvm.extensions.addTo
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
 import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
+import com.gmail.hostov47.androidschoolmvvm.utils.SingleLiveEvent
 import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -29,16 +30,28 @@ class SearchViewModel(
     private val schedulers: SchedulersProvider
 ) : BaseViewModel() {
 
+    private val _searchMovies = MutableLiveData<List<MoviePreview>>()
+    val searchMovies: LiveData<List<MoviePreview>> = _searchMovies
+
+    private val _errors = SingleLiveEvent<Throwable>()
+    val errors: LiveData<Throwable> = _errors
+
+    /**
+     * Метод, обработывающий запросы пользователя по поиску фильмов.
+     *
+     * @param searchObservable stream, в который поступают поисковые запросы.
+     */
     fun handleSearch(searchObservable: Observable<String>) {
         searchObservable
             .subscribeOn(schedulers.io())
             .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
             .map { it.trim() }
-            .filter { it.length > SearchBar.MIN_LENGTH }
-            .doOnNext { Log.d("SearchViewModel","next: $it") }
+            .filter { it.length > MIN_LENGTH }
             .switchMap { searchMovies(it) }
             .observeOn(schedulers.ui())
-            .subscribe({}, {})
+            .subscribe(
+                { list -> _searchMovies.value = list },
+                { error -> _errors.value = error })
             .addTo(compositeDisposable)
     }
 
@@ -48,7 +61,7 @@ class SearchViewModel(
                 MoviePreview(
                     movieId = movie.id,
                     title = movie.title,
-                    poster = movie.fullPosterPath,
+                    poster = movie.posterPath ?: "",
                     rating = movie.rating
                 )
             }
@@ -57,6 +70,7 @@ class SearchViewModel(
 
     companion object {
         const val DEBOUNCE_TIMEOUT = 1500L
+        const val MIN_LENGTH = 2
     }
 }
 

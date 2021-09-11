@@ -76,6 +76,11 @@ class DetailsViewModel(
             ).addTo(compositeDisposable)
     }
 
+    /**
+     * Метод, добавляющий фильм в список понравившихся.
+     *
+     * @param movie [MovieDetailsWithCast] фильм, который нужно добавить в список.
+     */
     fun addToFavorite(movie: MovieDetailsWithCast) {
         Completable.fromAction { interactor.addToFavorite(movie) }
             .subscribeOn(schedulers.io())
@@ -85,6 +90,11 @@ class DetailsViewModel(
             }.addTo(compositeDisposable)
     }
 
+    /**
+     * Метод, удаляющий фильм из списка понравившихся.
+     *
+     * @param movie [MovieDetailsWithCast] фильм, который нужно удалить из списка.
+     */
     fun removeFromFavorite(movie: MovieDetailsWithCast) {
         Completable.fromAction { interactor.removeFromFavorite(movie) }
             .subscribeOn(schedulers.io())
@@ -98,6 +108,11 @@ class DetailsViewModel(
         getMovieDetails(movieId, true)
     }
 
+    /**
+     * Метод, удаляющий фильм из списка фильмов к просмотру.
+     *
+     * @param movie [MovieDetailsWithCast] фильм, который нужно удалить из списка.
+     */
     fun removeFromWatchList(movie: MovieDetailsWithCast) {
         Completable.fromAction { interactor.removeFromWatchWist(movie) }
             .subscribeOn(schedulers.io())
@@ -107,6 +122,11 @@ class DetailsViewModel(
             }.addTo(compositeDisposable)
     }
 
+    /**
+     * Метод, добавляющий фильм в список фильмов к просмотру.
+     *
+     * @param movie [MovieDetailsWithCast] фильм, который нужно добавить в список.
+     */
     fun addToWatchList(movie: MovieDetailsWithCast) {
         Completable.fromAction { interactor.addToWatchList(movie) }
             .subscribeOn(schedulers.io())
