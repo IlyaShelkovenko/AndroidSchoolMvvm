@@ -53,5 +53,10 @@
     <style name="MyTabWidget">
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="SplashScreenTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:statusBarColor">@color/blueDark</item>
+    </style>
 </resources>
 

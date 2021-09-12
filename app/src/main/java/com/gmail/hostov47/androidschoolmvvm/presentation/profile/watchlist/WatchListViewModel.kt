@@ -12,7 +12,7 @@ import com.gmail.hostov47.androidschoolmvvm.domain.interactors.WatchListInteract
 import com.gmail.hostov47.androidschoolmvvm.extensions.addTo
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
-import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
+import com.gmail.hostov47.androidschoolmvvm.utils.schedulers.SchedulersProvider
 import javax.inject.Inject
 
 /**

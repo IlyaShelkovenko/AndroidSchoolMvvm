@@ -1,4 +1,4 @@
-package com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider
+package com.gmail.hostov47.androidschoolmvvm.utils.schedulers
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

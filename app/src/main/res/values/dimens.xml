@@ -44,6 +44,7 @@
     <dimen name="search_bar_height">56dp</dimen>
     <dimen name="profile_header_size">150dp</dimen>
     <dimen name="header_text_size">26sp</dimen>
+    <dimen name="splash_logo_size">112dp</dimen>
 
 
 </resources>

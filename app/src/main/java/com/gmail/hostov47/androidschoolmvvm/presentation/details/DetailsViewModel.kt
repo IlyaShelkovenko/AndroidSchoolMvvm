@@ -16,7 +16,7 @@ import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDetailsDomain
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.Cast
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MovieDetailsWithCast
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
-import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
+import com.gmail.hostov47.androidschoolmvvm.utils.schedulers.SchedulersProvider
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction

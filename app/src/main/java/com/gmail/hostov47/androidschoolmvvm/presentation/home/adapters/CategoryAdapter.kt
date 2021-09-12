@@ -36,10 +36,13 @@ class CategoryAdapter(private val onClickListener: OnMovieItemClick) : RecyclerV
     class CategoryViewHolder(private val binding: ItemCategoryBinding, private val onClickListener: OnMovieItemClick) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private val adapter = MoviesAdapter(listOf(), onClickListener)
+
         fun bind(item: CategoryItem) {
             with(binding) {
                 titleTextView.text = item.title
-                itemsContainer.adapter = MoviesAdapter(item.movies, onClickListener)
+                adapter.submitItems(item.movies)
+                itemsContainer.adapter = adapter
             }
         }
     }

@@ -15,7 +15,7 @@ data class MoviesResponse(
     var totalResults: Int,
     @SerialName("total_pages")
     var totalPages: Int,
-    var results: List<Movie>
+    var results: List<Movie>?
 )
 
 
@@ -25,14 +25,14 @@ data class Movie(
     val isAdult: Boolean,
     val overview: String,
     @SerialName("release_date")
-    var releaseDate: String,
+    var releaseDate: String?,
     @SerialName("genre_ids")
     var genreIds: List<Int>,
     var id: Int,
     @SerialName("original_title")
-    var originalTitle: String,
+    var originalTitle: String?,
     @SerialName("original_language")
-    var originalLanguage: String,
+    var originalLanguage: String?,
     var title: String,
     @SerialName("backdrop_path")
     var backdropPath: String?,

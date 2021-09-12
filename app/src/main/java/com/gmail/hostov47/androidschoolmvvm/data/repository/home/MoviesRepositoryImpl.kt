@@ -24,14 +24,16 @@ class MoviesRepositoryImpl @Inject constructor(
         if (!forceLoad)
             movies = movieStore.getPopularMovies()
         if (movies == null) {
-            movies = moviesApi.getPopularMovies().results.map { movie ->
+            movies = moviesApi.getPopularMovies().results?.map { movie ->
                 FromMovieToMovieLocalMapper.map(movie)
             }.also {
                 if (caching)
-                    movieStore.savePopularMovies(it)
+                    it?.let {
+                        movieStore.savePopularMovies(it)
+                    }
             }
         }
-        return movies
+        return movies ?: emptyList()
     }
 
     override fun getUpcomingMovies(forceLoad: Boolean, caching: Boolean): List<MovieLocal> {
@@ -39,14 +41,16 @@ class MoviesRepositoryImpl @Inject constructor(
         if (!forceLoad)
             movies = movieStore.getUpcomingMovies()
         if (movies == null) {
-            movies = moviesApi.getUpcomingMovies().results.map { movie ->
+            movies = moviesApi.getUpcomingMovies().results?.map { movie ->
                 FromMovieToMovieLocalMapper.map(movie)
             }.also {
                 if (caching)
-                    movieStore.saveUpcomingMovies(it)
+                    it?.let {
+                        movieStore.saveUpcomingMovies(it)
+                    }
             }
         }
-        return movies
+        return movies ?: emptyList()
     }
 
     override fun getNowPlayingMovies(forceLoad: Boolean, caching: Boolean): List<MovieLocal> {
@@ -54,13 +58,16 @@ class MoviesRepositoryImpl @Inject constructor(
         if (!forceLoad)
             movies = movieStore.getNowPlayingMovies()
         if (movies == null) {
-            movies = moviesApi.getNowPlayingMovies().results.map { movie ->
-                FromMovieToMovieLocalMapper.map(movie)
+            movies = moviesApi.getNowPlayingMovies().results?.map { movie ->
+                val newMovie = FromMovieToMovieLocalMapper.map(movie)
+                newMovie
             }.also {
                 if (caching)
-                    movieStore.saveNowPlayingMovies(it)
+                    it?.let {
+                        movieStore.saveNowPlayingMovies(it)
+                    }
             }
         }
-        return movies
+        return movies ?: emptyList()
     }
 }

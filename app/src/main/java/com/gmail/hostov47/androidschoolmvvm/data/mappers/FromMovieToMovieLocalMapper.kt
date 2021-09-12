@@ -27,4 +27,10 @@ object FromMovieToMovieLocalMapper {
             posterPath = movie.posterPath,
         )
     }
+
+    fun mapList(movies: List<Movie>?): List<MovieLocal> {
+        return movies?.map { movie ->
+            map(movie)
+        } ?: emptyList()
+    }
 }

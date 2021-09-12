@@ -3,11 +3,13 @@ package com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail.hostov47.androidschoolmvvm.R
 import com.gmail.hostov47.androidschoolmvvm.databinding.ItemCardBinding
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 import com.gmail.hostov47.androidschoolmvvm.extensions.load
+import com.gmail.hostov47.androidschoolmvvm.utils.diffutils.MovieDiffUtil
 
 
 /**
@@ -18,8 +20,10 @@ import com.gmail.hostov47.androidschoolmvvm.extensions.load
 class MoviesAdapter(private var movies: List<MoviePreview>, private val onClickListener: OnMovieItemClick) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
     fun submitItems(newMovies: List<MoviePreview>) {
+        val diff = MovieDiffUtil(movies, newMovies)
+        val diffResult = DiffUtil.calculateDiff(diff)
         movies = newMovies
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder =

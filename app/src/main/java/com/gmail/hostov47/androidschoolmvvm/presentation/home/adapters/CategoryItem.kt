@@ -6,5 +6,5 @@ package com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters
 
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 
-class CategoryItem(val title: String,val movies: List<MoviePreview>) {
+data class CategoryItem(val title: String, val movies: List<MoviePreview>) {
 }

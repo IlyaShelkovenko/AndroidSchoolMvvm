@@ -17,8 +17,8 @@ import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStore
 import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStoreImpl
 import com.gmail.hostov47.androidschoolmvvm.data.local.db.MovieDb
 import com.gmail.hostov47.androidschoolmvvm.utils.ConnectionCheckInterceptor
-import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProvider
-import com.gmail.hostov47.androidschoolmvvm.utils.SchedulersProvider.SchedulersProviderImpl
+import com.gmail.hostov47.androidschoolmvvm.utils.schedulers.SchedulersProvider
+import com.gmail.hostov47.androidschoolmvvm.utils.schedulers.SchedulersProviderImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

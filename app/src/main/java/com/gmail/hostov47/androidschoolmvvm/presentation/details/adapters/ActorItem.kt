@@ -19,16 +19,16 @@ import kotlinx.android.synthetic.main.item_actor.view.*
  * @author Шелковенко Илья on 2021-08-04
  */
 class ActorItem(
-        private val content: Cast
+    private val content: Cast
 ) : Item() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         val name = content.name.split(" ")
 
         viewHolder.containerView.tv_first_name.text = name.first()
         viewHolder.containerView.tv_second_name.text = name.last()
-        if(content.profilePoster != null && content.profilePoster.isNotEmpty()){
+        if (content.profilePoster != null && content.profilePoster.isNotEmpty()) {
             viewHolder.containerView.iv_actor_avatar.load(content.profilePoster)
-        }else{
+        } else {
             viewHolder.containerView.iv_actor_avatar.loadPlaceHolder(R.drawable.ic_person)
         }
     }
