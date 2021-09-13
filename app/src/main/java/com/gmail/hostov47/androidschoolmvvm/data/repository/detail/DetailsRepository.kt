@@ -3,10 +3,9 @@
  */
 package com.gmail.hostov47.androidschoolmvvm.data.repository.detail
 
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.MovieDetailsLocal
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MovieDetailResponse
 import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieCastLocal
-import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieDetailsLocal
-
 
 /**
  * Репозиторий c детальной информацией и фильме

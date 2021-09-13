@@ -1,15 +1,14 @@
-package com.gmail.hostov47.androidschoolmvvm.data.local
-
-import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieCastLocal
-import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieDetailsLocal
-import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
-
 /**
- * Хранилище фильмов и детальной информации о них
- *
- * @author Shelkovenko Ilya
+ * Created by Ilia Shelkovenko on 13.09.2021.
  */
-interface MovieStore {
+package com.gmail.hostov47.androidschoolmvvm.data.local.store
+
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.MovieDetailsLocal
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.MovieLocal
+import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieCastLocal
+
+
+interface MovieStoreNew {
     /**
      * Сохрнить популярные фильмы
      * @param movies список фильмов [MovieLocal]
@@ -33,21 +32,21 @@ interface MovieStore {
      *
      * @return список фильмов [MovieLocal], [null] если фильмов нет
      */
-    fun getPopularMovies(): List<MovieLocal>?
+    fun getPopularMovies(): List<MovieLocal>
 
     /**
      * Получить новые фильмы
      *
      * @return список фильмов [MovieLocal], [null] если фильмов нет
      */
-    fun getUpcomingMovies(): List<MovieLocal>?
+    fun getUpcomingMovies(): List<MovieLocal>
 
     /**
      * Получить рекомендуемые фильмы
      *
      * @return список фильмов [MovieLocal], [null] если фильмов нет
      */
-    fun getNowPlayingMovies(): List<MovieLocal>?
+    fun getNowPlayingMovies(): List<MovieLocal>
 
     /**
      * Получить детальную информацию о фильме
@@ -61,7 +60,7 @@ interface MovieStore {
      * Сохрнить детальную информацию о фильме
      * @param details детальная информация о фильме [MovieDetailsLocal]
      */
-    fun saveMovieDetails(details: MovieDetailsLocal?)
+    fun saveMovieDetails(details: MovieDetailsLocal)
 
     /**
      * Сохрнить информацию о команде фильма
@@ -77,5 +76,5 @@ interface MovieStore {
      * @param movieId идентификатор фильма.
      * @return список каста фильма [MovieCastLocal]
      */
-    fun getMovieCredits(movieId: Int): List<MovieCastLocal>?
+    fun getMovieCredits(movieId: Int): List<MovieCastLocal>
 }

@@ -3,7 +3,7 @@
  */
 package com.gmail.hostov47.androidschoolmvvm.data.repository.home
 
-import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.MovieLocal
 
 
 /**

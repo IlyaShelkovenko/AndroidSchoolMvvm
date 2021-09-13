@@ -13,9 +13,11 @@ import com.gmail.hostov47.androidschoolmvvm.ImdbApp
 import com.gmail.hostov47.androidschoolmvvm.R
 import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApi
 import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApiImpl
-import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStore
-import com.gmail.hostov47.androidschoolmvvm.data.local.MovieStoreImpl
+import com.gmail.hostov47.androidschoolmvvm.data.local.store.MovieStore
 import com.gmail.hostov47.androidschoolmvvm.data.local.db.MovieDb
+import com.gmail.hostov47.androidschoolmvvm.data.local.store.MovieStoreDbImpl
+import com.gmail.hostov47.androidschoolmvvm.data.local.store.MovieStoreImpl
+import com.gmail.hostov47.androidschoolmvvm.data.local.store.MovieStoreNew
 import com.gmail.hostov47.androidschoolmvvm.utils.ConnectionCheckInterceptor
 import com.gmail.hostov47.androidschoolmvvm.utils.schedulers.SchedulersProvider
 import com.gmail.hostov47.androidschoolmvvm.utils.schedulers.SchedulersProviderImpl
@@ -91,6 +93,14 @@ class AppModule(private val appContext: ImdbApp) {
     @Provides
     @Singleton
     fun provideWatchlistDao(db: MovieDb) = db.watchlistDao()
+
+    @Provides
+    @Singleton
+    fun provideLocalMoviesDao(db: MovieDb) = db.localMovieDao()
+
+    @Provides
+    @Singleton
+    fun provideMovieDetailsDao(db: MovieDb) = db.movieDetailsDao()
 }
 
 @Module
@@ -105,5 +115,11 @@ abstract class AppBindModule {
 
     @Binds
     @Singleton
+    @Named("PrefsCash")
     abstract fun bindsMovieStore(store: MovieStoreImpl): MovieStore
+
+    @Binds
+    @Singleton
+    @Named("DbCash")
+    abstract fun bindsMovieStoreDb(store: MovieStoreDbImpl): MovieStoreNew
 }

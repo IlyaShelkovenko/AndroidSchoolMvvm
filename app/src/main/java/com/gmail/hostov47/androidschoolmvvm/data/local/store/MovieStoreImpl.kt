@@ -1,6 +1,8 @@
-package com.gmail.hostov47.androidschoolmvvm.data.local
+package com.gmail.hostov47.androidschoolmvvm.data.local.store
 
 import android.content.SharedPreferences
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.dao.LocalMoviesDao
+import com.gmail.hostov47.androidschoolmvvm.data.local.store.MovieStore
 import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieCastLocal
 import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieDetailsLocal
 import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
@@ -18,7 +20,7 @@ private const val NOW_PLAYING_MOVIES_KEY = "NOW_PLAYING_MOVIES_KEY"
 class MovieStoreImpl @Inject constructor(
     @Named("Caching")
     private val preferences: SharedPreferences,
-    private val json: Json
+    private val json: Json,
 ) : MovieStore {
 
     override fun savePopularMovies(movies: List<MovieLocal>) {

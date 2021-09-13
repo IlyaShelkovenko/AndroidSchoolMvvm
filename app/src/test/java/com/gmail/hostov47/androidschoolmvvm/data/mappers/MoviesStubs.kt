@@ -4,8 +4,8 @@
 
 package com.gmail.hostov47.androidschoolmvvm.data.mappers
 
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.MovieLocal
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MoviesResponse
-import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
 import com.google.gson.GsonBuilder
 import java.io.File
 import java.io.FileReader

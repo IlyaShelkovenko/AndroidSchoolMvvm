@@ -4,9 +4,9 @@
 
 package com.gmail.hostov47.androidschoolmvvm.data.mappers
 
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.MovieLocal
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.Movie
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MoviesResponse
-import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
 import com.google.gson.GsonBuilder
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
@@ -46,7 +46,7 @@ class FromMovieToMovieLocalMapperTest {
         MatcherAssert.assertThat(movieLocal.overview,CoreMatchers.`is`(movieRes?.overview))
         MatcherAssert.assertThat(movieLocal.releaseDate,CoreMatchers.`is`(movieRes?.releaseDate))
         MatcherAssert.assertThat(movieLocal.genreIds,CoreMatchers.`is`(movieRes?.genreIds))
-        MatcherAssert.assertThat(movieLocal.id,CoreMatchers.`is`(movieRes?.id))
+        MatcherAssert.assertThat(movieLocal.movieId,CoreMatchers.`is`(movieRes?.id))
         MatcherAssert.assertThat(movieLocal.originalTitle,CoreMatchers.`is`(movieRes?.originalTitle))
         MatcherAssert.assertThat(movieLocal.originalLanguage,CoreMatchers.`is`(movieRes?.originalLanguage))
         MatcherAssert.assertThat(movieLocal.title,CoreMatchers.`is`(movieRes?.title))

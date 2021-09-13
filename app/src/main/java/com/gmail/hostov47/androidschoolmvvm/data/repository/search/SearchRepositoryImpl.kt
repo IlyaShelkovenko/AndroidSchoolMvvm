@@ -5,8 +5,8 @@
 package com.gmail.hostov47.androidschoolmvvm.data.repository.search
 
 import com.gmail.hostov47.androidschoolmvvm.data.api.ImdbApi
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.MovieLocal
 import com.gmail.hostov47.androidschoolmvvm.data.mappers.FromMovieToMovieLocalMapper
-import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
 import javax.inject.Inject
 
 

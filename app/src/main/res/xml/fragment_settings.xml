@@ -9,7 +9,7 @@
         <SwitchPreferenceCompat
             android:key="@string/pref_key_caching"
             android:title="@string/caching_data"
-            app:defaultValue="false"
+            app:defaultValue="true"
             />
 
         <EditTextPreference

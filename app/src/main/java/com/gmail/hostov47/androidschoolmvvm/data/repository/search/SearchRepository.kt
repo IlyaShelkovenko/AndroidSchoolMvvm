@@ -3,7 +3,8 @@
  */
 package com.gmail.hostov47.androidschoolmvvm.data.repository.search
 
-import com.gmail.hostov47.androidschoolmvvm.models.data.local.MovieLocal
+import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.MovieLocal
+
 
 interface SearchRepository {
     /**

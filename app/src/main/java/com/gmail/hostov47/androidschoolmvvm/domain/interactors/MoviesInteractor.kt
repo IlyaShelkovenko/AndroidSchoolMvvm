@@ -3,7 +3,6 @@ package com.gmail.hostov47.androidschoolmvvm.domain.interactors
 import com.gmail.hostov47.androidschoolmvvm.data.mappers.FromMovieLocalToMovieDomainMapper
 import com.gmail.hostov47.androidschoolmvvm.data.repository.home.MoviesRepository
 import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDomain
-import io.reactivex.Single
 import java.io.IOException
 import javax.inject.Inject
 
