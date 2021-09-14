@@ -113,7 +113,7 @@ class LocalMovieDaoTest {
     }
 
     @Test
-    fun getPopularMovies(){
+    fun getPopularMoviesTest(){
         val movies = moviesLocalPopularCategory
         val popularMovies = movies.filter { it.isPopular }
         val popularMoviesExpectedSize = popularMovies.count()
@@ -126,7 +126,7 @@ class LocalMovieDaoTest {
     }
 
     @Test
-    fun getUpcomingMovies(){
+    fun getUpcomingMoviesTest(){
         val movies = moviesLocalUpcomingCategory
         val upcomingMovies = movies.filter { it.isUpcoming }
         val upcomingMoviesExpectedSize = upcomingMovies.count()
@@ -139,7 +139,7 @@ class LocalMovieDaoTest {
     }
 
     @Test
-    fun getNowPlayingMovies(){
+    fun getNowPlayingMoviesTest(){
         val movies = moviesLocalNowPlayingCategory
         val nowPlayingMovies = movies.filter { it.isNowPlaying }
         val nowPlayingMoviesExpectedSize = nowPlayingMovies.count()
