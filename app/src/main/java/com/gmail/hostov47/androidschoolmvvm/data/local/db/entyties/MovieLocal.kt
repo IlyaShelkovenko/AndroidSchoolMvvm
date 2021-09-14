@@ -35,7 +35,6 @@ data class MovieLocal(
     var voteAverage: Double?,
     @ColumnInfo(name = "poster_path")
     val posterPath: String?,
-    var categories: MutableSet<String> = mutableSetOf(),
     var isPopular: Boolean = false,
     var isUpcoming: Boolean = false,
     var isNowPlaying: Boolean = false,

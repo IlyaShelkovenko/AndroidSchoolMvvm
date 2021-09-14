@@ -12,6 +12,7 @@ import java.io.FileReader
 
 
 val appPath: String = File("").absolutePath
-val response: MoviesResponse = GsonBuilder().setPrettyPrinting().create().fromJson(FileReader("$appPath\\src\\test\\java\\com\\gmail\\hostov47\\androidschoolmvvm\\data\\mappers\\MovieResponse"), MoviesResponse::class.java)
+val filename = "$appPath\\src\\test\\java\\com\\gmail\\hostov47\\androidschoolmvvm\\data\\mappers\\MovieResponse"
+val response: MoviesResponse = GsonBuilder().setPrettyPrinting().create().fromJson(FileReader(filename), MoviesResponse::class.java)
 
 val moviesLocal: List<MovieLocal> = FromMovieToMovieLocalMapper.mapList(response.results)

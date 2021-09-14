@@ -20,6 +20,7 @@ import com.gmail.hostov47.androidschoolmvvm.ImdbApp
 import com.gmail.hostov47.androidschoolmvvm.R
 import com.gmail.hostov47.androidschoolmvvm.databinding.FragmentDetailsBinding
 import com.gmail.hostov47.androidschoolmvvm.extensions.load
+import com.gmail.hostov47.androidschoolmvvm.extensions.loadBlur
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MovieDetailsWithCast
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BindingFragment
 import com.gmail.hostov47.androidschoolmvvm.presentation.details.adapters.ActorItem
@@ -168,8 +169,10 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
     }
 
     private fun bindMovie(movieDetails: MovieDetailsWithCast) {
-        if (movieDetails.posterPath?.isNotEmpty() == true)
+        if (movieDetails.posterPath?.isNotEmpty() == true) {
             binding.ivMoviePoster.load(movieDetails.posterPath)
+            binding.ivMoviePosterLite.loadBlur(movieDetails.posterPath)
+        }
         else
             binding.ivMoviePoster.load(R.drawable.ic_image_not_supported)
         binding.tvMovieTitle.text = movieDetails.title

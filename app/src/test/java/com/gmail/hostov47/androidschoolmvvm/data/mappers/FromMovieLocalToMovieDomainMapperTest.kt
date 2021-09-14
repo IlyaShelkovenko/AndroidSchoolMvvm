@@ -22,7 +22,6 @@ class FromMovieLocalToMovieDomainMapperTest {
     @Before
     fun setUp(){
         localToDomainMapper = FromMovieLocalToMovieDomainMapper
-        val appPath = File("").absolutePath
         localMovies = moviesLocal
         moviesDomain = localToDomainMapper.mapList(localMovies)
     }

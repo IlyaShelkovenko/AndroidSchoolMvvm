@@ -39,9 +39,9 @@ interface LocalMoviesDao {
             insert(movie)
         } else {
             when(category){
-                MoviesCategory.Popular -> { tmpMovie.isPopular = movie.isPopular }
-                MoviesCategory.Upcoming -> { tmpMovie.isUpcoming = movie.isUpcoming }
-                MoviesCategory.NowPlaying -> { tmpMovie.isNowPlaying = movie.isNowPlaying }
+                MoviesCategory.Popular -> { tmpMovie.isPopular = true}
+                MoviesCategory.Upcoming -> { tmpMovie.isUpcoming = true }
+                MoviesCategory.NowPlaying -> { tmpMovie.isNowPlaying = true }
             }
             update(tmpMovie)
         }

@@ -8,10 +8,18 @@ import androidx.annotation.DrawableRes
 import com.gmail.hostov47.androidschoolmvvm.BuildConfig
 import com.gmail.hostov47.androidschoolmvvm.R
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.BlurTransformation
 
 fun ImageView.load(url: String){
     Picasso.get()
         .load("${BuildConfig.POSTER_PATH}$url")
+        .into(this)
+}
+
+fun ImageView.loadBlur(url: String){
+    Picasso.get()
+        .load("${BuildConfig.POSTER_PATH}$url")
+        .transform(BlurTransformation(this.context, 25, 1))
         .into(this)
 }
 
