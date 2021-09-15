@@ -29,7 +29,7 @@ interface LocalMoviesDao {
     @Query("DELETE FROM ${MovieDb.MOVIE_LOCAL_TABLE} WHERE :movieId = movieId")
     fun delete(movieId: Int)
 
-    @Update
+    @Update()
     fun update(movie : MovieLocal): Int
 
     @Transaction

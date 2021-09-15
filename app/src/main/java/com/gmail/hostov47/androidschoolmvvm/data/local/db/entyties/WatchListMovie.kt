@@ -10,7 +10,8 @@ import com.gmail.hostov47.androidschoolmvvm.data.local.db.MovieDb.Companion.WATC
 
 @Entity(tableName = WATCHLIST_TABLE)
 data class WatchListMovie(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val movieId: Int,
     val title: String,
     var poster: String

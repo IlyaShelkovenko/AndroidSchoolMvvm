@@ -18,15 +18,6 @@ class Converters{
     }
 
     @TypeConverter
-    fun fromListStrings(list: Set<String>): String {
-        return list.joinToString(",")
-    }
-    @TypeConverter
-    fun fromString(string: String): Set<String> {
-        return string.split(",").toSet()
-    }
-
-    @TypeConverter
     fun fromListInts(list: List<Int>): String {
         return list.joinToString(",")
     }

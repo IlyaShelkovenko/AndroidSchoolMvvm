@@ -10,7 +10,8 @@ import com.gmail.hostov47.androidschoolmvvm.data.local.db.MovieDb.Companion.FAVO
 
 @Entity(tableName = FAVORITE_TABLE)
 data class FavoriteMovie(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val movieId: Int,
     val title: String,
     var poster: String

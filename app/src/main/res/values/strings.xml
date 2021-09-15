@@ -30,7 +30,7 @@
     <string name="added_to_watchlist">Фильм добавлен в список фильмов к просмотру</string>
     <string name="removed_from_favorits">Фильм удален из списка понравившихся</string>
     <string name="added_to_favorits">Фильм добавлен в список понравившихся</string>
-    <string name="search_title">Что будем смотреть сегодня?</string>
+    <string name="search_title">Что будем смотреть\n сегодня?</string>
     <string name="home_title">Мы сделали для Вас\n подборку фильмов</string>
     <string name="search_hint">Введите название</string>
     <string name="close">закрыть поиск</string>

@@ -16,7 +16,7 @@ interface MovieDetailsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(movieDetails: MovieDetailsLocal)
 
-    @Query("SELECT * FROM ${MovieDb.MOVIE_DETAILS_TABLE} WHERE id = :movieId")
+    @Query("SELECT * FROM ${MovieDb.MOVIE_DETAILS_TABLE} WHERE movieId = :movieId")
     fun getMovieDetails(movieId: Int): MovieDetailsLocal?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -24,4 +24,10 @@ interface MovieDetailsDao {
 
     @Query("SELECT * FROM ${MovieDb.MOVIE_CAST_TABLE} WHERE movieId = :movieId")
     fun getMovieCast(movieId: Int): LocalCast?
+
+    @Query("SELECT * FROM ${MovieDb.MOVIE_CAST_TABLE}")
+    fun getAllMovieCast(): List<LocalCast>
+
+    @Query("SELECT * FROM ${MovieDb.MOVIE_DETAILS_TABLE}")
+    fun getAllMovieDetails(): List<MovieDetailsLocal>
 }

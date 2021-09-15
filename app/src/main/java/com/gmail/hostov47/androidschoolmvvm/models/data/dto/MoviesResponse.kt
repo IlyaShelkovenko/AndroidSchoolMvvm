@@ -25,17 +25,17 @@ data class Movie(
     val isAdult: Boolean,
     val overview: String,
     @SerialName("release_date")
-    var releaseDate: String?,
+    var releaseDate: String? = null,
     @SerialName("genre_ids")
     var genreIds: List<Int>,
     var id: Int,
     @SerialName("original_title")
-    var originalTitle: String?,
+    var originalTitle: String? = null,
     @SerialName("original_language")
-    var originalLanguage: String?,
+    var originalLanguage: String? = null,
     var title: String,
     @SerialName("backdrop_path")
-    var backdropPath: String?,
+    var backdropPath: String? = null,
     var popularity: Double,
     @SerialName("vote_count")
     var voteCount: Int,
@@ -43,5 +43,5 @@ data class Movie(
     @SerialName("vote_average")
     var voteAverage: Double,
     @SerialName("poster_path")
-    val posterPath: String?
+    val posterPath: String? = null
 )

@@ -25,7 +25,7 @@ import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.*
 abstract class MovieDb : RoomDatabase() {
     companion object {
         const val DATABASE_NAME = BuildConfig.APPLICATION_ID + ".db"
-        const val DATABASE_VERSION = 5
+        const val DATABASE_VERSION = 7
         const val FAVORITE_TABLE = "favorite_movies"
         const val WATCHLIST_TABLE = "watchlist_movies"
         const val MOVIE_LOCAL_TABLE = "local_movies"

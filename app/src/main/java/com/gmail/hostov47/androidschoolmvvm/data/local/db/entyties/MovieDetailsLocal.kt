@@ -12,7 +12,7 @@ import com.gmail.hostov47.androidschoolmvvm.data.local.db.MovieDb.Companion.MOVI
 @Entity(tableName = MOVIE_DETAILS_TABLE)
 data class MovieDetailsLocal(
     @PrimaryKey
-    val id: Int,
+    val movieId: Int,
     @ColumnInfo(name = "poster_path")
     val posterPath: String? = null,
     val title: String,

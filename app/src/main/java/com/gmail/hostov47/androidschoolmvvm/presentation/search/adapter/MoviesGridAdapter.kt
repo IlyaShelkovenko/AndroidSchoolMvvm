@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gmail.hostov47.androidschoolmvvm.R
 import com.gmail.hostov47.androidschoolmvvm.databinding.ItemCardBinding
 import com.gmail.hostov47.androidschoolmvvm.extensions.load
+import com.gmail.hostov47.androidschoolmvvm.extensions.loadPlaceHolder
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 import com.gmail.hostov47.androidschoolmvvm.presentation.home.adapters.OnMovieItemClick
 
@@ -53,7 +54,10 @@ class MoviesGridAdapter(
             binding.apply {
                 with(moviePreview) {
                     movieTitle.text = title
-                    imagePreview.load(poster)
+                    if(poster.isNotEmpty())
+                        imagePreview.load(poster)
+                    else
+                        imagePreview.loadPlaceHolder(R.drawable.ic_no_poster)
                     movieRating.rating = rating ?: 0f
                 }
             }

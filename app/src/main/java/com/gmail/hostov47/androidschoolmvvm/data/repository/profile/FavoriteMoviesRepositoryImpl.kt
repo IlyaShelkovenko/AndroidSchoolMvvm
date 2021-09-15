@@ -27,7 +27,6 @@ class FavoriteMoviesRepositoryImpl @Inject constructor(
     override fun removeFromFavorite(movie: MovieDetailsWithCast) =
         favoriteDao.delete(movie.id)
 
-
     override fun getFavoriteMovies(): Single<List<MoviePreview>> {
         return favoriteDao.getFavoriteMovies().map { it.toMoviePreviewList() }
     }

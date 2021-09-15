@@ -12,8 +12,10 @@ import org.hamcrest.MatcherAssert
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.io.File
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
+@RunWith(JUnit4::class)
 class FromMovieLocalToMovieDomainMapperTest {
     private lateinit var localToDomainMapper: FromMovieLocalToMovieDomainMapper
     private var localMovies: List<MovieLocal>? = null
@@ -28,7 +30,7 @@ class FromMovieLocalToMovieDomainMapperTest {
 
     @Test
     fun `check correct items`(){
-        for(index in response.results!!.indices){
+        for(index in movieResponse.results!!.indices){
             checkMovieItem(moviesDomain[index], moviesLocal[index])
         }
     }

@@ -33,7 +33,7 @@ class MovieDetailsInteractor @Inject constructor(
     fun getMovieDetails(movieId: Int, forceLoad: Boolean): MovieDetailsDomain {
         val localDetails = detailsRepository.getMovieDetails(movieId, forceLoad)
         return MovieDetailsDomain(
-            localDetails.id,
+            localDetails.movieId,
             localDetails.posterPath,
             localDetails.title,
             localDetails.voteAverage,

@@ -69,7 +69,7 @@ class SearchViewModel(
     }
 
     companion object {
-        const val DEBOUNCE_TIMEOUT = 1500L
+        const val DEBOUNCE_TIMEOUT = 1000L
         const val MIN_LENGTH = 2
     }
 }
