@@ -36,6 +36,9 @@ class SearchViewModel(
     private val _errors = SingleLiveEvent<Throwable>()
     val errors: LiveData<Throwable> = _errors
 
+    private val _isSubscribed = MutableLiveData<Boolean>(true)
+    val isSubscribed: LiveData<Boolean> = _isSubscribed
+
     /**
      * Метод, обработывающий запросы пользователя по поиску фильмов.
      *
@@ -51,7 +54,10 @@ class SearchViewModel(
             .observeOn(schedulers.ui())
             .subscribe(
                 { list -> _searchMovies.value = list },
-                { error -> _errors.value = error })
+                { error ->
+                    _errors.value = error
+                    _isSubscribed.value = false
+                })
             .addTo(compositeDisposable)
     }
 

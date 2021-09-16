@@ -11,16 +11,18 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.BlurTransformation
 
 fun ImageView.load(url: String){
-    Picasso.get()
-        .load("${BuildConfig.POSTER_PATH}$url")
-        .into(this)
+    if(url.isNotEmpty())
+        Picasso.get()
+            .load(url)
+            .into(this)
 }
 
 fun ImageView.loadBlur(url: String){
-    Picasso.get()
-        .load("${BuildConfig.POSTER_PATH}$url")
-        .transform(BlurTransformation(this.context, 25, 1))
-        .into(this)
+    if(url.isNotEmpty())
+        Picasso.get()
+            .load(url)
+            .transform(BlurTransformation(this.context, 25, 1))
+            .into(this)
 }
 
 fun ImageView.load(@DrawableRes res: Int = R.drawable.ic_image_not_supported){

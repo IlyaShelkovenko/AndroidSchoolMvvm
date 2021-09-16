@@ -22,7 +22,7 @@
             android:background="@drawable/search_background"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="@dimen/material_margin_small"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionSearch"
             android:inputType="textShortMessage"
             android:labelFor="@+id/search"
             android:maxLines="1"

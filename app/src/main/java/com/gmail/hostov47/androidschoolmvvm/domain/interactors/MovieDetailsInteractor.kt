@@ -1,5 +1,6 @@
 package com.gmail.hostov47.androidschoolmvvm.domain.interactors
 
+import com.gmail.hostov47.androidschoolmvvm.data.mappers.FromDetailsLocalToDetailsDomain
 import com.gmail.hostov47.androidschoolmvvm.data.repository.detail.DetailsRepository
 import com.gmail.hostov47.androidschoolmvvm.data.repository.profile.FavoriteMoviesRepository
 import com.gmail.hostov47.androidschoolmvvm.data.repository.profile.WatchListRepository
@@ -32,16 +33,7 @@ class MovieDetailsInteractor @Inject constructor(
     @Throws(IOException::class, IllegalStateException::class)
     fun getMovieDetails(movieId: Int, forceLoad: Boolean): MovieDetailsDomain {
         val localDetails = detailsRepository.getMovieDetails(movieId, forceLoad)
-        return MovieDetailsDomain(
-            localDetails.id,
-            localDetails.posterPath,
-            localDetails.title,
-            localDetails.voteAverage,
-            localDetails.overview,
-            localDetails.productionCompanies,
-            localDetails.genres,
-            localDetails.releaseDate,
-        )
+        return FromDetailsLocalToDetailsDomain.map(localDetails)
     }
 
     /**
