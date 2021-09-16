@@ -62,7 +62,6 @@ class DetailsViewModel(
                 detail.toMovieDetailsWithCast(cast)
             }
         Single.zip(movieDetails, movieCast, zipper)
-            .delay(1, TimeUnit.SECONDS)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .doOnSubscribe { _detailsWithCast.value = Result.Loading }

@@ -8,14 +8,9 @@ data class MovieDetailsDomain(
     val id: Int,
     val posterPath: String? = null,
     val title: String,
-    val voteAverage: Double?,
+    val rating: Float,
     val overview: String? = null,
     val productCompanies: String,
     val genres: String,
     val releaseDate: String
-){
-    val rating: Float
-        get() {
-            return (voteAverage?.toFloat() ?: 0f) / 2
-        }
-}
+)

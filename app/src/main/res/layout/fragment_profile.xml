@@ -50,7 +50,8 @@
                 android:layout_height="@dimen/avatar_round_size"
                 android:layout_marginStart="@dimen/material_margin_huge"
                 app:srcCompat="@drawable/avatar_default"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/tv_login"

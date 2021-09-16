@@ -93,7 +93,7 @@ class HomeViewModel(
 
     private fun Single<List<MovieDomain>>.loadMovieChain(): Single<List<MoviePreview>> {
         return this
-            .delay(2, TimeUnit.SECONDS)
+            .delay(1, TimeUnit.SECONDS)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .doFinally { _showLoading.value = false }
