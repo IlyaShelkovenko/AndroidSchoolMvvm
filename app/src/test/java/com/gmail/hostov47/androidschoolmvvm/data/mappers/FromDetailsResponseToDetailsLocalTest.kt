@@ -8,6 +8,7 @@ import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.MovieDetailsL
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MovieDetailResponse
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,4 +49,5 @@ class FromDetailsResponseToDetailsLocalTest {
         MatcherAssert.assertThat(actualDetailsLocal.releaseDate, CoreMatchers.`is`(response.releaseDate))
 
     }
+
 }

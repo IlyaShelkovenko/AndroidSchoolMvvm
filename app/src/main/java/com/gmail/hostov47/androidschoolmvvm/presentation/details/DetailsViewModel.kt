@@ -34,7 +34,7 @@ class DetailsViewModel(
     private val schedulers: SchedulersProvider
 ) : BaseViewModel() {
 
-    private val _detailsWithCast = MutableLiveData<Result>(Result.Loading)
+    private val _detailsWithCast = MutableLiveData<Result>()
     val detailsWithCast: LiveData<Result> = _detailsWithCast
 
     private val _isFavorite = MutableLiveData<Boolean>()

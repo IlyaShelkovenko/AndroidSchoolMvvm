@@ -5,6 +5,7 @@
 package com.gmail.hostov47.androidschoolmvvm.presentation.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -37,6 +38,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity().application as ImdbApp).appComponent.getHomeComponent().inject(this)
+        Log.d("HomeFragment", "OnCreate")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,6 +75,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
             showToast(it.message ?: "Unknown error")
             binding.swipeRefresh.isRefreshing = false
         })
+        viewModel.loadMovies()
     }
 
     private fun openMovieDetails(movie: MoviePreview) {
@@ -93,9 +96,20 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.d("HomeFragment", "onStart")
+    }
+
     override fun onStop() {
         super.onStop()
         binding.animationView.cancelAnimation()
+        Log.d("HomeFragment", "OnStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("HomeFragment", "OnDestroy")
     }
 
     companion object {

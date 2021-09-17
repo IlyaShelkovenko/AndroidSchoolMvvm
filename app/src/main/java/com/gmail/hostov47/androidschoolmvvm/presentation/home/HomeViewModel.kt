@@ -6,6 +6,7 @@ package com.gmail.hostov47.androidschoolmvvm.presentation.home
 
 import android.content.SharedPreferences
 import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -59,9 +60,19 @@ class HomeViewModel(
     val errors: LiveData<Throwable> = _errors
 
     init {
-        //loadUpcomingMovies(caching = caching)
-        //loadPopularMovies(caching = caching)
-        //loadNowPlayingMovies(caching = caching)
+//        loadUpcomingMovies(caching = caching)
+//        loadPopularMovies(caching = caching)
+//        loadNowPlayingMovies(caching = caching)
+    }
+
+    fun loadMovies(){
+        if(upcomingMovies.value == null ||
+            nowPlayingMovies.value == null ||
+            popularMovies.value == null) {
+            loadUpcomingMovies(caching = caching)
+            loadPopularMovies(caching = caching)
+            loadNowPlayingMovies(caching = caching)
+        }
     }
 
     fun onRefreshLayout() {
@@ -70,22 +81,22 @@ class HomeViewModel(
         loadNowPlayingMovies(true, caching)
     }
 
-     fun loadUpcomingMovies(forceLoad: Boolean = false, caching: Boolean = true) {
-        Single.fromCallable { interactor.getPopularMovies(forceLoad, caching) }
-            .loadMovieChain()
-            .subscribe(_upcomingMovies::setValue, _errors::setValue)
-            .addTo(compositeDisposable)
-    }
-
      fun loadPopularMovies(forceLoad: Boolean = false, caching: Boolean = true) {
-        Single.fromCallable { interactor.getUpcomingMovies(forceLoad, caching) }
+        Single.fromCallable { interactor.getPopularMovies(forceLoad, caching) }
             .loadMovieChain()
             .subscribe(_popularMovies::setValue, _errors::setValue)
             .addTo(compositeDisposable)
     }
 
+     fun loadUpcomingMovies(forceLoad: Boolean = false, caching: Boolean = true) {
+        Single.fromCallable { interactor.getUpcomingMovies(forceLoad, caching) }
+            .loadMovieChain()
+            .subscribe(_upcomingMovies::setValue, _errors::setValue)
+            .addTo(compositeDisposable)
+    }
+
      fun loadNowPlayingMovies(forceLoad: Boolean = false, caching: Boolean = true) {
-        Single.fromCallable { interactor.getNowPlayingMovies() }
+        Single.fromCallable { interactor.getNowPlayingMovies(forceLoad, caching) }
             .loadMovieChain()
             .subscribe(_nowPlayingMovies::setValue, _errors::setValue)
             .addTo(compositeDisposable)
@@ -96,8 +107,8 @@ class HomeViewModel(
             //.delay(1, TimeUnit.SECONDS)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .doFinally { _showLoading.value = false }
             .doOnSubscribe { _showLoading.value = true }
+            .doFinally { _showLoading.value = false }
             .map { list ->
                 list.map { movie ->
                     MoviePreview(
