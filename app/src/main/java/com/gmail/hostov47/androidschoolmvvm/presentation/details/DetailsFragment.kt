@@ -64,7 +64,6 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         setupActionBar()
         binding.swipeRefresh.setOnRefreshListener { viewModel.onRefreshLayout(movieId) }
         viewModel.getMovieDetails(movieId)
-
         binding.cbFavorite.setOnClickListener { view ->
             if ((view as AppCompatCheckBox).isChecked) {
                 movie?.let {
@@ -119,22 +118,19 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         })
 
         viewModel.detailsWithCast.observe(viewLifecycleOwner, Observer { result ->
-            when (result) {
-                Result.Loading -> {
-                    showLoading()
-                }
-                is Result.Error -> {
-                    showToast(result.error.message ?: "Unknown error")
-                    binding.swipeRefresh.isRefreshing = false
-                }
-                is Result.Success -> {
-                    movie = result.data
-                    bindMovie(movie!!)
-                    hideLoading()
-                    binding.swipeRefresh.isRefreshing = false
-                    animateRatingBar(movie!!.rating)
-                }
-            }
+            movie = result
+            bindMovie(movie!!)
+            binding.swipeRefresh.isRefreshing = false
+            animateRatingBar(movie!!.rating)
+        })
+
+        viewModel.showLoading.observe(viewLifecycleOwner, Observer { loading ->
+            showLoading(loading)
+        })
+
+        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+            showToast(error.message ?: "Unknown error")
+            binding.swipeRefresh.isRefreshing = false
         })
     }
 
@@ -157,22 +153,22 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         btnWatch.icon = null
     }
 
-    private fun showLoading() {
-        binding.contentLayout.visibility = View.GONE
-        binding.animationView.visibility = View.VISIBLE
-        binding.animationView.playAnimation()
-    }
-
-    private fun hideLoading() {
-        binding.animationView.cancelAnimation()
-        binding.animationView.visibility = View.GONE
-        binding.contentLayout.visibility = View.VISIBLE
+    private fun showLoading(isLoading: Boolean) {
+        if(isLoading) {
+            binding.contentLayout.visibility = View.GONE
+            binding.animationView.visibility = View.VISIBLE
+            binding.animationView.playAnimation()
+        }else {
+            binding.animationView.cancelAnimation()
+            binding.animationView.visibility = View.GONE
+            binding.contentLayout.visibility = View.VISIBLE
+        }
     }
 
     private fun bindMovie(movieDetails: MovieDetailsWithCast) {
         if (movieDetails.posterPath?.isNotEmpty() == true) {
-            binding.ivMoviePoster.load(movieDetails.posterPath)
             binding.ivMoviePosterLite.loadBlur(movieDetails.posterPath)
+            binding.ivMoviePoster.load(movieDetails.posterPath)
         }
         else
             binding.ivMoviePoster.loadPlaceHolder(R.drawable.ic_no_poster)

@@ -9,7 +9,7 @@ import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.WatchListMovi
 import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieCastDomain
 
 
-class MovieDetailsWithCast(
+data class MovieDetailsWithCast(
     val id: Int,
     val posterPath: String? = null,
     val title: String,

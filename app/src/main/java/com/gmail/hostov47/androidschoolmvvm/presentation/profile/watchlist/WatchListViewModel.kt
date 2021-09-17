@@ -32,11 +32,7 @@ class WatchListViewModel(
     private val _errorLive = MutableLiveData<Throwable>()
     val errorLive: LiveData<Throwable> = _errorLive
 
-    init {
-        getWatchList()
-    }
-
-    private fun getWatchList() {
+    fun getWatchList() {
         interactor.getWatchList()
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())

@@ -4,6 +4,7 @@
 
 package com.gmail.hostov47.androidschoolmvvm.presentation.details
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +21,6 @@ import com.gmail.hostov47.androidschoolmvvm.utils.schedulers.SchedulersProvider
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -34,8 +34,14 @@ class DetailsViewModel(
     private val schedulers: SchedulersProvider
 ) : BaseViewModel() {
 
-    private val _detailsWithCast = MutableLiveData<Result>(Result.Loading)
-    val detailsWithCast: LiveData<Result> = _detailsWithCast
+    private val _detailsWithCast = MutableLiveData<MovieDetailsWithCast>()
+    val detailsWithCast: LiveData<MovieDetailsWithCast> = _detailsWithCast
+
+    private val _showLoading = MutableLiveData<Boolean>()
+    val showLoading: LiveData<Boolean> = _showLoading
+
+    private val _error = MutableLiveData<Throwable>()
+    val error: LiveData<Throwable> = _error
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> = _isFavorite
@@ -64,14 +70,15 @@ class DetailsViewModel(
         Single.zip(movieDetails, movieCast, zipper)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .doOnSubscribe { _detailsWithCast.value = Result.Loading }
+            .doOnSubscribe { _showLoading.value = true }
+            .doFinally { _showLoading.value = false }
             .subscribe(
                 { movie ->
-                    _detailsWithCast.value = Result.Success(movie)
+                    _detailsWithCast.value = movie
                     requestMovieIsFavorite(movie)
                     requestMovieIsInWatchList(movie)
                 },
-                { e -> _detailsWithCast.value = Result.Error(e) }
+                { e -> _error.value = e }
             ).addTo(compositeDisposable)
     }
 
@@ -84,6 +91,7 @@ class DetailsViewModel(
         Completable.fromAction { interactor.addToFavorite(movie) }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
+            .doOnError { error -> _error.value = error }
             .subscribe {
                 _isFavorite.value = true
             }.addTo(compositeDisposable)
@@ -98,6 +106,7 @@ class DetailsViewModel(
         Completable.fromAction { interactor.removeFromFavorite(movie) }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
+            .doOnError { error -> _error.value = error }
             .subscribe {
                 _isFavorite.value = false
             }.addTo(compositeDisposable)
@@ -113,9 +122,10 @@ class DetailsViewModel(
      * @param movie [MovieDetailsWithCast] фильм, который нужно удалить из списка.
      */
     fun removeFromWatchList(movie: MovieDetailsWithCast) {
-        Completable.fromAction { interactor.removeFromWatchWist(movie) }
+        Completable.fromAction { interactor.removeFromWatchList(movie) }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
+            .doOnError { error -> _error.value = error }
             .subscribe {
                 _isInWatchList.value = false
             }.addTo(compositeDisposable)
@@ -130,12 +140,14 @@ class DetailsViewModel(
         Completable.fromAction { interactor.addToWatchList(movie) }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
+            .doOnError { error -> _error.value = error }
             .subscribe {
                 _isInWatchList.value = true
             }.addTo(compositeDisposable)
     }
 
-    private fun requestMovieIsFavorite(movie: MovieDetailsWithCast) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun requestMovieIsFavorite(movie: MovieDetailsWithCast) {
         interactor.isMovieFavorite(movie)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
@@ -145,7 +157,8 @@ class DetailsViewModel(
             ).addTo(compositeDisposable)
     }
 
-    private fun requestMovieIsInWatchList(movie: MovieDetailsWithCast) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun requestMovieIsInWatchList(movie: MovieDetailsWithCast) {
         interactor.isMovieInWatchList(movie)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
@@ -167,7 +180,7 @@ class DetailsViewModelFactory @Inject constructor(
 }
 
 sealed class Result {
-    class Success(val data: MovieDetailsWithCast) : Result()
+    data class Success(val data: MovieDetailsWithCast) : Result()
     class Error(val error: Throwable) : Result()
     object Loading : Result()
 }

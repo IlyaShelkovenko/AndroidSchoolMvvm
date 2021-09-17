@@ -57,11 +57,12 @@ class WatchListFragment : BindingFragment<FragmentWatchlistBinding>() {
         viewModel.errorLive.observe(viewLifecycleOwner, Observer {
             showToast(it.message ?: "Unknown error")
         })
+        viewModel.getWatchList()
     }
 
     private fun openMovieDetails(movie: MoviePreview) {
         val bundle = Bundle()
-        bundle.putInt(HomeFragment.MOVIE_ID, movie.movieId ?: 0)
+        bundle.putInt(HomeFragment.MOVIE_ID, movie.movieId)
         findNavController().navigate(R.id.detailsFragment, bundle, options)
     }
 }

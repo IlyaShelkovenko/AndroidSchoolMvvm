@@ -58,10 +58,14 @@ class HomeViewModel(
     private val _errors = SingleLiveEvent<Throwable>()
     val errors: LiveData<Throwable> = _errors
 
-    init {
-        //loadUpcomingMovies(caching = caching)
-        //loadPopularMovies(caching = caching)
-        //loadNowPlayingMovies(caching = caching)
+    fun loadMovies(){
+        if(upcomingMovies.value == null ||
+            nowPlayingMovies.value == null ||
+            popularMovies.value == null) {
+            loadUpcomingMovies(caching = caching)
+            loadPopularMovies(caching = caching)
+            loadNowPlayingMovies(caching = caching)
+        }
     }
 
     fun onRefreshLayout() {
@@ -71,21 +75,21 @@ class HomeViewModel(
     }
 
      fun loadUpcomingMovies(forceLoad: Boolean = false, caching: Boolean = true) {
-        Single.fromCallable { interactor.getPopularMovies(forceLoad, caching) }
+        Single.fromCallable { interactor.getUpcomingMovies(forceLoad, caching) }
             .loadMovieChain()
             .subscribe(_upcomingMovies::setValue, _errors::setValue)
             .addTo(compositeDisposable)
     }
 
      fun loadPopularMovies(forceLoad: Boolean = false, caching: Boolean = true) {
-        Single.fromCallable { interactor.getUpcomingMovies(forceLoad, caching) }
+        Single.fromCallable { interactor.getPopularMovies(forceLoad, caching) }
             .loadMovieChain()
             .subscribe(_popularMovies::setValue, _errors::setValue)
             .addTo(compositeDisposable)
     }
 
      fun loadNowPlayingMovies(forceLoad: Boolean = false, caching: Boolean = true) {
-        Single.fromCallable { interactor.getNowPlayingMovies() }
+        Single.fromCallable { interactor.getNowPlayingMovies(forceLoad,caching) }
             .loadMovieChain()
             .subscribe(_nowPlayingMovies::setValue, _errors::setValue)
             .addTo(compositeDisposable)

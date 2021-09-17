@@ -95,7 +95,7 @@ class MovieDetailsInteractor @Inject constructor(
      *
      * @param movie [MovieDetailsWithCast] фильм, который хотим удалить из базы данных фильмов к просмотру.
      */
-    fun removeFromWatchWist(movie: MovieDetailsWithCast) {
+    fun removeFromWatchList(movie: MovieDetailsWithCast) {
         watchListRepository.removeFromWatchList(movie)
     }
 

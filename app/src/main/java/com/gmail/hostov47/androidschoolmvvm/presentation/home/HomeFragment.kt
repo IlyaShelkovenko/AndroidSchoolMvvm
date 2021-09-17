@@ -73,11 +73,12 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>() {
             showToast(it.message ?: "Unknown error")
             binding.swipeRefresh.isRefreshing = false
         })
+        viewModel.loadMovies()
     }
 
     private fun openMovieDetails(movie: MoviePreview) {
         val bundle = Bundle()
-        bundle.putInt(MOVIE_ID, movie.movieId ?: 0)
+        bundle.putInt(MOVIE_ID, movie.movieId)
         findNavController().navigate(R.id.detailsFragment, bundle, options)
     }
 

@@ -29,9 +29,7 @@ class MoviesInteractor @Inject constructor(private val moviesRepository: MoviesR
             }
 
     @Throws(IOException::class, IllegalStateException::class)
-    fun getNowPlayingMovies(): List<MovieDomain> {
-        val forceLoad = false
-        val caching = true
+    fun getNowPlayingMovies(forceLoad: Boolean, caching: Boolean): List<MovieDomain> {
         return moviesRepository.getNowPlayingMovies(forceLoad, caching)
             .map { localMovie ->
                 FromMovieLocalToMovieDomainMapper.map(localMovie)

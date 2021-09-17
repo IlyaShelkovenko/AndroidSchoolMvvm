@@ -32,11 +32,7 @@ class FavoriteViewModel(
     private val _errorLive  = MutableLiveData<Throwable>()
     val errorLive : LiveData<Throwable> = _errorLive
 
-    init {
-        getFavoriteMovies()
-    }
-
-    private fun getFavoriteMovies() {
+    fun getFavoriteMovies() {
         interactor.getFavoriteMovies()
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
