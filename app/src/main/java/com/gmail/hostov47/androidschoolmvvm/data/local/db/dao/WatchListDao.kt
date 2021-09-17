@@ -13,15 +13,36 @@ import io.reactivex.Single
 
 @Dao
 interface WatchListDao {
+
+    /**
+     * Метод, вставляющий фильм в базу данных.
+     *
+     * @param item [WatchListMovie] фильм который нужно вставить в БД.
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item : WatchListMovie): Long
 
+    /**
+     * Метод, возвращающий список фильмов к просмотру.
+     *
+     * @return [Single] список фильмов [WatchListMovie].
+     */
     @Query("SELECT * FROM $WATCHLIST_TABLE")
     fun getWatchList(): Single<List<WatchListMovie>>
 
+    /**
+     * Метод, удаляющий фильм из базы данных по его идентификатору.
+     *
+     * @param movieId идентификатор фильма который нужно удалить из БД.
+     */
     @Query("DELETE FROM $WATCHLIST_TABLE WHERE movieId = :movieId")
     fun delete(movieId: Int)
 
+    /**
+     * Метод, проверяющий, есть ли фильм в хранилище фильмов к просмотру.
+     *
+     * @return [Single] [WatchListMovie], если фильм есть в хранилище, exception если нет.
+     */
     @Query("SELECT * FROM $WATCHLIST_TABLE WHERE movieId = :movieId")
     fun isInWatchList(movieId: Int) : Single<WatchListMovie>
 }

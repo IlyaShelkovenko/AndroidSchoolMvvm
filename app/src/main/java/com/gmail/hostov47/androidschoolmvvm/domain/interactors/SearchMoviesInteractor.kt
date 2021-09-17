@@ -10,6 +10,12 @@ import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDomain
 import javax.inject.Inject
 
 class SearchMoviesInteractor @Inject constructor(private val repository: SearchRepository) {
+
+    /**
+     * Метод, получающий список фильмов по поисковому запросу.
+     *
+     * @return список фильмов [MovieDomain], найденных по запросу
+     */
     fun searchMovies(query: String): List<MovieDomain> {
         return repository.searchMovies(query)
             .map { localMovie ->

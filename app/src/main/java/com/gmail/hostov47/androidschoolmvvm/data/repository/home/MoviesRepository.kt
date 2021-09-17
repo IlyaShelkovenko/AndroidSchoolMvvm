@@ -16,6 +16,7 @@ interface MoviesRepository {
      * Метод, получающий список популярных фильмов.
      *
      * @param forceLoad флаг для получения данных с сети.
+     * @param caching флаг для кеширования данных в БД.
      * @return список популярных фильмов [MovieLocal]
      */
     fun getPopularMovies(forceLoad: Boolean = false, caching: Boolean = true): List<MovieLocal>
@@ -24,6 +25,7 @@ interface MoviesRepository {
      * Метод, получающий список новых фильмов.
      *
      * @param forceLoad флаг для получения данных с сети.
+     * @param caching флаг для кеширования данных в БД.
      * @return список новых фильмов [MovieLocal]
      */
     fun getUpcomingMovies(forceLoad: Boolean = false, caching: Boolean = true): List<MovieLocal>
@@ -32,6 +34,7 @@ interface MoviesRepository {
      * Метод, получающий список рекомендуемых фильмов.
      *
      * @param forceLoad флаг для получения данных с сети.
+     * @param caching флаг для кеширования данных в БД.
      * @return список рекомендуемых фильмов [MovieLocal]
      */
     fun getNowPlayingMovies(forceLoad: Boolean = false, caching: Boolean = true): List<MovieLocal>

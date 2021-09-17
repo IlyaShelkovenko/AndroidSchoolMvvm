@@ -16,10 +16,9 @@ import com.gmail.hostov47.androidschoolmvvm.extensions.addTo
 import com.gmail.hostov47.androidschoolmvvm.models.domain.MovieDomain
 import com.gmail.hostov47.androidschoolmvvm.models.presentation.MoviePreview
 import com.gmail.hostov47.androidschoolmvvm.presentation.base.BaseViewModel
-import com.gmail.hostov47.androidschoolmvvm.utils.schedulers.SchedulersProvider
 import com.gmail.hostov47.androidschoolmvvm.utils.SingleLiveEvent
+import com.gmail.hostov47.androidschoolmvvm.utils.schedulers.SchedulersProvider
 import io.reactivex.Single
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
 
