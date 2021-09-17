@@ -7,7 +7,6 @@ package com.gmail.hostov47.androidschoolmvvm.data.mappers
 import com.gmail.hostov47.androidschoolmvvm.data.local.db.entyties.MovieLocal
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.Movie
 import com.gmail.hostov47.androidschoolmvvm.models.data.dto.MoviesResponse
-import com.google.gson.GsonBuilder
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.Assert
@@ -15,8 +14,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import java.io.File
-import java.io.FileReader
 
 @RunWith(JUnit4::class)
 class FromMovieToMovieLocalMapperTest {
@@ -28,8 +25,7 @@ class FromMovieToMovieLocalMapperTest {
     @Before
     fun setUp(){
         movieToLocalMapper = FromMovieToMovieLocalMapper
-        val appPath = File("").absolutePath
-        response = GsonBuilder().setPrettyPrinting().create().fromJson(FileReader("$appPath\\src\\test\\java\\com\\gmail\\hostov47\\androidschoolmvvm\\data\\mappers\\MovieResponse"), MoviesResponse::class.java)
+        response = getMoviesResponse()
         results = response.results
         moviesLocal = movieToLocalMapper.mapList(results!!)
     }
