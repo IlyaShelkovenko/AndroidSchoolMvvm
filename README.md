@@ -11,4 +11,5 @@
 - Glide и Picasso для работы с загрузкой изображений
 - Архитектура приложения разработана с использованием архитектурного паттерна Model-View-ViewModel(MVVM)
 
-<img src=https://github.com/IlyaShelkovenko/Resources/blob/master/MovieDatabase/preview.gif" alt="Input Mask" height="40" />
+![](https://github.com/IlyaShelkovenko/Resources/blob/master/MovieDatabase/preview.gif)
+
